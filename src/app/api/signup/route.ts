@@ -3,7 +3,7 @@ import { prisma } from "@/lib/prisma";
 import bcrypt from "bcryptjs";
 import { z } from "zod";
 import { randomUUID } from "crypto";
-import { checkRateLimit } from "@/lib/rate-limit";
+import { checkRateLimit, incrementRateLimit } from "@/lib/rate-limit";
 import { sendVerificationEmail } from "@/lib/email";
 
 const signupSchema = z.object({
@@ -35,6 +35,7 @@ export async function POST(req: NextRequest) {
         { status: 429, headers: { "Retry-After": String(Math.ceil(retryAfterMs / 1000)) } }
       );
     }
+    incrementRateLimit(`signup:${ip}`);
 
     const body = await req.json();
     const data = signupSchema.parse(body);

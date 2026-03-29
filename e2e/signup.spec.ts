@@ -24,7 +24,7 @@ test.describe("Signup Flow", () => {
     await page.fill('input[name="name"], input[placeholder*="name" i]', "Test User");
     // Fill email field
     const emailInput = page.locator('input[type="email"]');
-    await emailInput.fill("saikrishna@demo.com"); // existing demo user
+    await emailInput.fill(process.env.TEST_STUDENT_EMAIL!); // existing demo user
     // Fill password
     const passwordInput = page.locator('input[type="password"]');
     await passwordInput.fill("StrongPass@123");

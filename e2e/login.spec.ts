@@ -26,8 +26,8 @@ test.describe("Login Flow", () => {
 
   test("should login as student and redirect to dashboard", async ({ page }) => {
     await page.goto("/login");
-    await page.locator('input[type="email"]').fill("saikrishna@demo.com");
-    await page.locator('input[type="password"]').fill("Student@123");
+    await page.locator('input[type="email"]').fill(process.env.TEST_STUDENT_EMAIL!);
+    await page.locator('input[type="password"]').fill(process.env.TEST_STUDENT_PASSWORD!);
     await page.click('button[type="submit"]');
     // Should redirect to student dashboard
     await page.waitForURL("**/dashboard**", { timeout: 15000 });
@@ -36,8 +36,8 @@ test.describe("Login Flow", () => {
 
   test("should login as admin and redirect to admin panel", async ({ page }) => {
     await page.goto("/login");
-    await page.locator('input[type="email"]').fill("yalagondanikhil@gmail.com");
-    await page.locator('input[type="password"]').fill("Rajeevteam@24*");
+    await page.locator('input[type="email"]').fill(process.env.TEST_ADMIN_EMAIL!);
+    await page.locator('input[type="password"]').fill(process.env.TEST_ADMIN_PASSWORD!);
     await page.click('button[type="submit"]');
     // Should redirect to admin dashboard
     await page.waitForURL("**/admin**", { timeout: 15000 });
