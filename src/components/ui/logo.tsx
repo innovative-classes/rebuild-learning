@@ -1,13 +1,11 @@
-import Image from "next/image";
+/* eslint-disable @next/next/no-img-element */
 
 export function LogoMark({ className = "w-8 h-8" }: { className?: string }) {
   return (
     <div className={`${className} relative rounded-lg overflow-hidden flex items-center justify-center`}>
-      <Image
+      <img
         src="/subbu-innovative-classes.jpeg"
         alt="Rebuild Learning"
-        width={40}
-        height={40}
         className="w-full h-full object-cover"
       />
     </div>
@@ -36,11 +34,9 @@ export function Logo({
   return (
     <div className={`flex items-center gap-2.5 ${className}`}>
       <div className={`${s.icon} relative rounded-lg overflow-hidden flex items-center justify-center`}>
-        <Image
+        <img
           src="/subbu-innovative-classes.jpeg"
           alt="Rebuild Learning"
-          width={40}
-          height={40}
           className="w-full h-full object-cover"
         />
       </div>
