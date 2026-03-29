@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import { ToastProvider, Toaster } from "@/components/ui/toaster";
 import { AuthProvider } from "@/components/providers/auth-provider";
+import { FloatingBadge } from "@/components/ui/floating-badge";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -33,6 +34,7 @@ export default function RootLayout({
           <ToastProvider>
             {children}
             <Toaster />
+            <FloatingBadge />
           </ToastProvider>
         </AuthProvider>
       </body>

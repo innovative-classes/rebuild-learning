@@ -1,16 +1,15 @@
+import Image from "next/image";
+
 export function LogoMark({ className = "w-8 h-8" }: { className?: string }) {
   return (
     <div className={`${className} relative rounded-lg overflow-hidden flex items-center justify-center`}>
-      <svg viewBox="0 0 40 40" fill="none" className="absolute inset-0 w-full h-full" aria-hidden="true">
-        {/* Red base */}
-        <rect width="40" height="40" fill="#dc2626" />
-        {/* Geometric triangle accents */}
-        <path d="M40 0H22L40 18V0Z" fill="#111" fillOpacity="0.12" />
-        <path d="M0 40V30L10 40H0Z" fill="#111" fillOpacity="0.08" />
-        {/* Subtle horizontal line accent */}
-        <rect x="4" y="19" width="32" height="2" rx="1" fill="white" fillOpacity="0.12" />
-      </svg>
-      <span className="relative text-white font-extrabold text-sm tracking-tight">RL</span>
+      <Image
+        src="/subbu-innovative-classes.jpeg"
+        alt="Rebuild Learning"
+        width={40}
+        height={40}
+        className="w-full h-full object-cover"
+      />
     </div>
   );
 }
@@ -37,13 +36,13 @@ export function Logo({
   return (
     <div className={`flex items-center gap-2.5 ${className}`}>
       <div className={`${s.icon} relative rounded-lg overflow-hidden flex items-center justify-center`}>
-        <svg viewBox="0 0 40 40" fill="none" className="absolute inset-0 w-full h-full" aria-hidden="true">
-          <rect width="40" height="40" fill="#dc2626" />
-          <path d="M40 0H22L40 18V0Z" fill="#111" fillOpacity="0.12" />
-          <path d="M0 40V30L10 40H0Z" fill="#111" fillOpacity="0.08" />
-          <rect x="4" y="19" width="32" height="2" rx="1" fill="white" fillOpacity="0.12" />
-        </svg>
-        <span className={`relative text-white font-extrabold ${s.initials} tracking-tight`}>RL</span>
+        <Image
+          src="/subbu-innovative-classes.jpeg"
+          alt="Rebuild Learning"
+          width={40}
+          height={40}
+          className="w-full h-full object-cover"
+        />
       </div>
       {showText && (
         <div>

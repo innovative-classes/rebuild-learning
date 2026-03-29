@@ -290,6 +290,17 @@ export default function HomePage() {
           <p className="text-xs text-neutral-400 text-center mt-6">
             © 2025 N.B.V. Subba Rao. Rebuild Learning — Career Guidance for AP & TS Students. Edition 2025–2030.
           </p>
+          <p className="text-xs text-neutral-400 text-center mt-2">
+            Powered by{" "}
+            <a
+              href="https://innovativeclasses.com/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-red-600 hover:text-red-700 font-medium transition"
+            >
+              Subbu Innovative Classes
+            </a>
+          </p>
         </div>
       </footer>
     </div>
