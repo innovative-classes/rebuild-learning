@@ -6,48 +6,39 @@ const prisma = new PrismaClient();
 async function main() {
   console.log("🌱 Seeding database...");
 
-  // --- Admin user ---
-  const adminHash = await bcrypt.hash("Admin@123", 12);
+  // --- Admin users ---
+  const adminHash = await bcrypt.hash("Rajeevteam@24*", 12);
   await prisma.user.upsert({
-    where: { email: "admin@nbvsubbarao.com" },
+    where: { email: "subbarao@innovativeclasses.com" },
     update: { emailVerified: true, passwordHash: adminHash, failedLoginAttempts: 0, accountLockedUntil: null },
     create: {
       name: "N.B.V. Subba Rao",
-      email: "admin@nbvsubbarao.com",
+      email: "subbarao@innovativeclasses.com",
       passwordHash: adminHash,
       role: "ADMIN",
       phone: "+91 9876543210",
       emailVerified: true,
     },
   });
-  console.log("✅ Admin user created");
-
-  // --- Demo student ---
-  const studentHash = await bcrypt.hash("Student@123", 12);
   await prisma.user.upsert({
-    where: { email: "student@demo.com" },
-    update: { emailVerified: true, passwordHash: studentHash, failedLoginAttempts: 0, accountLockedUntil: null },
+    where: { email: "yalagondanikhil@gmail.com" },
+    update: { emailVerified: true, passwordHash: adminHash, failedLoginAttempts: 0, accountLockedUntil: null },
     create: {
-      name: "Demo Student",
-      email: "student@demo.com",
-      passwordHash: studentHash,
-      role: "STUDENT",
-      phone: "+91 9000000000",
-      studentClass: "Inter 2nd Year",
-      stream: "MPC",
-      city: "Hyderabad",
+      name: "Yalagonda Nikhil",
+      email: "yalagondanikhil@gmail.com",
+      passwordHash: adminHash,
+      role: "ADMIN",
+      phone: "+91 9876543211",
       emailVerified: true,
     },
   });
-  console.log("✅ Demo student created");
+  console.log("✅ Admin users created");
 
-  // --- 5 Additional student accounts ---
+  // --- Student accounts ---
+  const studentHash = await bcrypt.hash("Student@123", 12);
   const students = [
-    { name: "Rahul Sharma", email: "student1@demo.com", phone: "+91 9000000001", studentClass: "Inter 1st Year", stream: "MPC", city: "Hyderabad" },
-    { name: "Priya Reddy", email: "student2@demo.com", phone: "+91 9000000002", studentClass: "Inter 2nd Year", stream: "BiPC", city: "Vijayawada" },
-    { name: "Karthik Naidu", email: "student3@demo.com", phone: "+91 9000000003", studentClass: "Inter 1st Year", stream: "CEC", city: "Visakhapatnam" },
-    { name: "Sneha Devi", email: "student4@demo.com", phone: "+91 9000000004", studentClass: "Inter 2nd Year", stream: "MPC", city: "Tirupati" },
-    { name: "Arjun Kumar", email: "student5@demo.com", phone: "+91 9000000005", studentClass: "Inter 1st Year", stream: "BiPC", city: "Warangal" },
+    { name: "Venkata Sai Krishna", email: "saikrishna@demo.com", phone: "+91 9000000001", studentClass: "Inter 2nd Year", stream: "MPC", city: "Vijayawada" },
+    { name: "Lakshmi Pranathi", email: "pranathi@demo.com", phone: "+91 9000000002", studentClass: "Inter 1st Year", stream: "BiPC", city: "Hyderabad" },
   ];
 
   for (const s of students) {
@@ -67,7 +58,7 @@ async function main() {
       },
     });
   }
-  console.log("✅ 5 additional students created");
+  console.log("✅ 2 student accounts created");
 
   // --- 12 Assessments ---
   const assessments = [
@@ -1921,8 +1912,10 @@ async function main() {
   console.log("✅ Sample coupon LAUNCH50 created");
 
   console.log("\n🎉 Seeding complete!");
-  console.log("📧 Admin login: admin@nbvsubbarao.com / Admin@123");
-  console.log("📧 Demo student: student@demo.com / Student@123");
+  console.log("📧 Admin 1: subbarao@innovativeclasses.com / Rajeevteam@24*");
+  console.log("📧 Admin 2: yalagondanikhil@gmail.com / Rajeevteam@24*");
+  console.log("📧 Student 1: saikrishna@demo.com / Student@123");
+  console.log("📧 Student 2: pranathi@demo.com / Student@123");
 }
 
 main()
