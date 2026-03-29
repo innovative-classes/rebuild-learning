@@ -1,0 +1,187 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id                     String    @id @default(cuid())
+  name                   String
+  email                  String    @unique
+  passwordHash           String
+  role                   String    @default("STUDENT")
+  phone                  String?
+  studentClass           String?
+  stream                 String?
+  city                   String?
+  state                  String?
+  isPremium              Boolean   @default(false)
+  premiumPurchasedAt     DateTime?
+  emailVerified          Boolean   @default(false)
+  emailVerificationToken String?
+  passwordResetToken     String?
+  passwordResetExpires   DateTime?
+  failedLoginAttempts    Int       @default(0)
+  accountLockedUntil     DateTime?
+  lastLoginAt            DateTime?
+  createdAt              DateTime  @default(now())
+  updatedAt              DateTime  @updatedAt
+
+  attempts AssessmentAttempt[]
+  payments Payment[]
+  bookings Booking[]
+}
+
+model Assessment {
+  id           String   @id @default(cuid())
+  moduleNumber Int      @unique
+  title        String
+  slug         String   @unique
+  description  String
+  overview     String
+  stream       String
+  keyExams     String
+  degree       String
+  salaryRange  String
+  demandRating Int      @default(5)
+  accentColor  String   @default("#000000")
+  price        Int      @default(99)
+  isActive     Boolean  @default(true)
+  createdAt    DateTime @default(now())
+
+  questions Question[]
+  attempts  AssessmentAttempt[]
+  reports   Report[]
+  payments  Payment[]
+}
+
+model Question {
+  id             String @id @default(cuid())
+  assessmentId   String
+  questionNumber Int
+  questionText   String
+  optionAText    String
+  optionBText    String
+  optionCText    String
+  optionAScore   Int    @default(2)
+  optionBScore   Int    @default(1)
+  optionCScore   Int    @default(0)
+
+  assessment Assessment     @relation(fields: [assessmentId], references: [id], onDelete: Cascade)
+  answers    AttemptAnswer[]
+
+  @@unique([assessmentId, questionNumber])
+}
+
+model AssessmentAttempt {
+  id             String    @id @default(cuid())
+  userId         String
+  assessmentId   String
+  totalScore     Int?
+  interpretation String?
+  startedAt      DateTime  @default(now())
+  completedAt    DateTime?
+  createdAt      DateTime  @default(now())
+
+  user       User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  assessment Assessment       @relation(fields: [assessmentId], references: [id], onDelete: Cascade)
+  answers    AttemptAnswer[]
+
+  @@index([userId])
+  @@index([assessmentId])
+}
+
+model AttemptAnswer {
+  id             String @id @default(cuid())
+  attemptId      String
+  questionId     String
+  selectedOption String
+  score          Int
+
+  attempt  AssessmentAttempt @relation(fields: [attemptId], references: [id], onDelete: Cascade)
+  question Question          @relation(fields: [questionId], references: [id], onDelete: Cascade)
+
+  @@unique([attemptId, questionId])
+}
+
+model Report {
+  id                   String @id @default(cuid())
+  assessmentId         String
+  tierLevel            String
+  title                String
+  description          String
+  careerPaths          String
+  topColleges          String
+  thirtyDayTest        String
+  entranceExamStrategy String @default("")
+  nextSteps            String
+  mistakesToAvoid      String
+  trendIntelligence    String
+
+  assessment Assessment @relation(fields: [assessmentId], references: [id], onDelete: Cascade)
+
+  @@unique([assessmentId, tierLevel])
+  @@index([assessmentId])
+}
+
+model Payment {
+  id                String   @id @default(cuid())
+  userId            String
+  type              String
+  assessmentId      String?
+  bookingId         String?
+  amount            Int
+  couponId          String?
+  discount          Int      @default(0)
+  finalAmount       Int
+  status            String   @default("PENDING")
+  razorpayOrderId   String?
+  razorpayPaymentId String?
+  createdAt         DateTime @default(now())
+
+  user       User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  assessment Assessment? @relation(fields: [assessmentId], references: [id])
+  booking    Booking?    @relation(fields: [bookingId], references: [id])
+  coupon     Coupon?     @relation(fields: [couponId], references: [id])
+
+  @@index([userId])
+  @@index([status])
+}
+
+model Coupon {
+  id            String   @id @default(cuid())
+  code          String   @unique
+  discountType  String
+  discountValue Int
+  maxUses       Int      @default(100)
+  usedCount     Int      @default(0)
+  validFrom     DateTime @default(now())
+  validTo       DateTime
+  isActive      Boolean  @default(true)
+  createdAt     DateTime @default(now())
+
+  payments Payment[]
+}
+
+model Booking {
+  id            String   @id @default(cuid())
+  userId        String
+  name          String
+  email         String
+  phone         String
+  preferredDate String
+  preferredTime String
+  message       String?
+  status        String   @default("PENDING_PAYMENT")
+  adminNotes    String?
+  createdAt     DateTime @default(now())
+
+  user     User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  payments Payment[]
+
+  @@index([userId])
+  @@index([status])
+}
