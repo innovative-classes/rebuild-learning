@@ -1,6 +1,6 @@
 import { prisma } from "@/lib/prisma";
 import { NextRequest, NextResponse } from "next/server";
-import { checkRateLimit } from "@/lib/rate-limit";
+import { checkRateLimit, incrementRateLimit } from "@/lib/rate-limit";
 
 export async function POST(req: NextRequest) {
   try {
@@ -13,6 +13,8 @@ export async function POST(req: NextRequest) {
         { status: 429, headers: { "Retry-After": String(Math.ceil(retryAfterMs / 1000)) } }
       );
     }
+    // Count every verify attempt toward rate limit (brute-force protection)
+    incrementRateLimit(`verify-email:${ip}`);
 
     const body = await req.json();
     const { token } = body;

@@ -2,7 +2,7 @@ import NextAuth from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 import { prisma } from "@/lib/prisma";
 import bcrypt from "bcryptjs";
-import { checkRateLimit } from "@/lib/rate-limit";
+import { checkRateLimit, incrementRateLimit } from "@/lib/rate-limit";
 
 const MAX_FAILED_ATTEMPTS = 5;
 const LOCKOUT_DURATION_MS = 15 * 60 * 1000; // 15 minutes
@@ -29,7 +29,10 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           where: { email },
         });
 
-        if (!user) return null;
+        if (!user) {
+          incrementRateLimit(`login:${email}`);
+          return null;
+        }
 
         // Check account lockout
         if (user.accountLockedUntil && user.accountLockedUntil > new Date()) {
@@ -42,6 +45,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         );
 
         if (!isValid) {
+          incrementRateLimit(`login:${email}`);
           // Increment failed attempts
           const failedAttempts = user.failedLoginAttempts + 1;
           const lockout = failedAttempts >= MAX_FAILED_ATTEMPTS
