@@ -168,7 +168,7 @@ export default async function AssessmentDetailPage({
               {isInProgress ? "Continue Your Assessment" : "Self-Assessment Quiz"}
             </h3>
             <p className="text-sm text-neutral-500 mb-2 max-w-md mx-auto">
-              8 scientifically designed questions · Takes about 5 minutes · Score: A=2, B=1, C=0 · Max score: 16
+              8 scientifically designed questions · Takes about 5 minutes
             </p>
             <p className="text-xs text-neutral-400 mb-6">
               Answer honestly — your score reveals your genuine interest intensity, not what sounds impressive.

@@ -3,7 +3,15 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import Script from "next/script";
 import { Loader2, ShieldCheck, Tag, Check, Crown } from "lucide-react";
+
+declare global {
+  interface Window {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    Razorpay: any;
+  }
+}
 
 const benefits = [
   "All 12 assessments & career reports unlocked",
@@ -66,26 +74,68 @@ export default function SubscribePage() {
       }),
     });
 
-    if (res.ok) {
-      const { paymentId } = await res.json();
+    if (!res.ok) {
+      setProcessing(false);
+      return;
+    }
 
+    const data = await res.json();
+
+    if (data.mode === "razorpay" && data.razorpayOrderId) {
+      const options = {
+        key: data.razorpayKeyId,
+        amount: data.finalAmount * 100,
+        currency: "INR",
+        name: "Rebuild Learning",
+        description: "Premium Plan — Lifetime Access",
+        order_id: data.razorpayOrderId,
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        handler: async function (response: any) {
+          const confirmRes = await fetch("/api/payments/confirm", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              paymentId: data.paymentId,
+              razorpayPaymentId: response.razorpay_payment_id,
+              razorpayOrderId: response.razorpay_order_id,
+              razorpaySignature: response.razorpay_signature,
+            }),
+          });
+          if (confirmRes.ok) {
+            router.push("/dashboard?upgraded=true");
+          } else {
+            setProcessing(false);
+          }
+        },
+        modal: {
+          ondismiss: function () {
+            setProcessing(false);
+          },
+        },
+        theme: { color: "#dc2626" },
+      };
+
+      const rzp = new window.Razorpay(options);
+      rzp.open();
+    } else {
+      // Free (100% coupon discount) — confirm directly
       const confirmRes = await fetch("/api/payments/confirm", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ paymentId }),
+        body: JSON.stringify({ paymentId: data.paymentId }),
       });
 
       if (confirmRes.ok) {
         router.push("/dashboard?upgraded=true");
         return;
       }
+      setProcessing(false);
     }
-
-    setProcessing(false);
   }
 
   return (
     <div className="max-w-md mx-auto">
+      <Script src="https://checkout.razorpay.com/v1/checkout.js" strategy="lazyOnload" />
       <div className="mb-4">
         <Link href="/dashboard" className="text-sm text-neutral-500 hover:text-neutral-900 transition">
           ← Back to Dashboard
@@ -182,7 +232,7 @@ export default function SubscribePage() {
         </button>
 
         <p className="text-xs text-neutral-400 text-center mt-3">
-          Secure simulated payment. Razorpay integration coming soon.
+          Secure payment powered by Razorpay
         </p>
       </div>
     </div>
