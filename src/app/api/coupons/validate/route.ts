@@ -1,6 +1,12 @@
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { NextRequest, NextResponse } from "next/server";
+import { z } from "zod";
+
+const couponSchema = z.object({
+  code: z.string().min(1).max(50).transform(v => v.toUpperCase()),
+  amount: z.number().positive().max(100000),
+});
 
 export async function POST(req: NextRequest) {
   const session = await auth();
@@ -9,14 +15,18 @@ export async function POST(req: NextRequest) {
   }
 
   const body = await req.json();
-  const { code, amount } = body;
-
-  if (!code || !amount) {
-    return NextResponse.json({ error: "Missing fields" }, { status: 400 });
+  
+  let data;
+  try {
+    data = couponSchema.parse(body);
+  } catch {
+    return NextResponse.json({ error: "Invalid coupon code or amount" }, { status: 400 });
   }
 
+  const { code, amount } = data;
+
   const coupon = await prisma.coupon.findUnique({
-    where: { code: code.toUpperCase() },
+    where: { code },
   });
 
   if (!coupon) {

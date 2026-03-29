@@ -18,6 +18,7 @@ export default function SignupPage() {
   });
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const [success, setSuccess] = useState(false);
 
   function updateField(field: string, value: string) {
     setFormData((prev) => ({ ...prev, [field]: value }));
@@ -42,7 +43,7 @@ export default function SignupPage() {
         return;
       }
 
-      router.push("/login?registered=true");
+      setSuccess(true);
     } catch {
       setError("Something went wrong");
     } finally {
@@ -63,6 +64,29 @@ export default function SignupPage() {
         </div>
 
         <div className="bg-white rounded-2xl shadow-sm border border-neutral-200 p-8">
+          {success ? (
+            <div className="text-center py-4">
+              <div className="w-14 h-14 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                <svg className="w-7 h-7 text-green-600" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75" />
+                </svg>
+              </div>
+              <h2 className="text-xl font-semibold text-neutral-900 mb-2">Check your email</h2>
+              <p className="text-sm text-neutral-600 mb-4">
+                We&apos;ve sent a verification link to <strong>{formData.email}</strong>. Please click the link to verify your account before signing in.
+              </p>
+              <p className="text-xs text-neutral-500 mb-6">
+                Didn&apos;t receive the email? Check your spam folder.
+              </p>
+              <Link
+                href="/login"
+                className="inline-block py-2.5 px-6 bg-red-600 text-white text-sm font-medium rounded-lg hover:bg-red-700 transition"
+              >
+                Go to Sign in
+              </Link>
+            </div>
+          ) : (
+            <>
           <h2 className="text-xl font-semibold text-neutral-900 mb-6">
             Create your account
           </h2>
@@ -112,9 +136,9 @@ export default function SignupPage() {
                   value={formData.password}
                   onChange={(e) => updateField("password", e.target.value)}
                   required
-                  minLength={6}
+                  minLength={8}
                   className="w-full px-3.5 py-2.5 rounded-lg border border-neutral-300 text-sm focus:outline-none focus:ring-2 focus:ring-neutral-900 focus:border-transparent transition"
-                  placeholder="Minimum 6 characters"
+                  placeholder="Min 8 chars, uppercase, number, special char"
                 />
               </div>
 
@@ -189,6 +213,8 @@ export default function SignupPage() {
               {loading ? "Creating account..." : "Create account"}
             </button>
           </form>
+            </>
+          )}
         </div>
 
         <p className="text-center text-sm text-neutral-600 mt-6">

@@ -7,20 +7,22 @@ export default async function DashboardPage() {
   const session = await auth();
   if (!session?.user) return null;
 
-  const user = await prisma.user.findUnique({
-    where: { id: session.user.id },
-  });
-
-  const totalAssessments = await prisma.assessment.count({ where: { isActive: true } });
-  const completedAttempts = await prisma.assessmentAttempt.count({
-    where: { userId: session.user.id, completedAt: { not: null } },
-  });
-  const recentAttempts = await prisma.assessmentAttempt.findMany({
-    where: { userId: session.user.id },
-    include: { assessment: true },
-    orderBy: { createdAt: "desc" },
-    take: 5,
-  });
+  const [user, totalAssessments, completedAttempts, recentAttempts] = await Promise.all([
+    prisma.user.findUnique({
+      where: { id: session.user.id },
+      select: { name: true, isPremium: true },
+    }),
+    prisma.assessment.count({ where: { isActive: true } }),
+    prisma.assessmentAttempt.count({
+      where: { userId: session.user.id, completedAt: { not: null } },
+    }),
+    prisma.assessmentAttempt.findMany({
+      where: { userId: session.user.id },
+      include: { assessment: true },
+      orderBy: { createdAt: "desc" },
+      take: 5,
+    }),
+  ]);
 
   return (
     <div>

@@ -1,18 +1,20 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { signIn, useSession } from "next-auth/react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
-import { useEffect } from "react";
+import { Suspense } from "react";
 
-export default function LoginPage() {
+function LoginForm() {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const { data: session, status } = useSession();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const registered = searchParams.get("registered") === "true";
 
   // Redirect already-logged-in users
   useEffect(() => {
@@ -43,12 +45,11 @@ export default function LoginPage() {
           setError("Invalid email or password");
         }
       } else {
-        // Fetch session to check role
+        // Session is updated automatically after signIn, use update to get fresh data
         const res = await fetch("/api/auth/session");
         const sess = await res.json();
         const role = sess?.user?.role;
-        router.push(role === "ADMIN" ? "/admin" : "/dashboard");
-        router.refresh();
+        router.replace(role === "ADMIN" ? "/admin" : "/dashboard");
       }
     } catch {
       setError("Something went wrong");
@@ -73,6 +74,12 @@ export default function LoginPage() {
           <h2 className="text-xl font-semibold text-neutral-900 mb-6">
             Welcome back
           </h2>
+
+          {registered && !error && (
+            <div className="mb-4 p-3 rounded-lg bg-green-50 border border-green-200 text-green-700 text-sm">
+              Account created! Please check your email and verify before signing in.
+            </div>
+          )}
 
           {error && (
             <div className="mb-4 p-3 rounded-lg bg-red-50 border border-red-200 text-red-700 text-sm">
@@ -138,5 +145,13 @@ export default function LoginPage() {
         </p>
       </div>
     </div>
+  );
+}
+
+export default function LoginPage() {
+  return (
+    <Suspense>
+      <LoginForm />
+    </Suspense>
   );
 }
