@@ -2,11 +2,13 @@ import { NextResponse } from "next/server";
 
 // TEMPORARY diagnostic endpoint — remove after debugging
 export async function GET() {
-  const keyId = process.env.RAZORPAY_KEY_ID || "";
-  const keySecret = process.env.RAZORPAY_KEY_SECRET || "";
-  const pubKey = process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID || "";
+  const keyId = (process.env.RAZORPAY_KEY_ID || "").trim();
+  const keySecret = (process.env.RAZORPAY_KEY_SECRET || "").trim();
+  const pubKey = (process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID || "").trim();
   
-  // Test the Razorpay API directly with fetch (bypass SDK)
+  const rawKeyId = process.env.RAZORPAY_KEY_ID || "";
+  
+  // Test the Razorpay API directly with fetch (bypass SDK) using TRIMMED values
   const auth = Buffer.from(`${keyId}:${keySecret}`).toString("base64");
   
   let apiResult: { status?: number; body?: unknown; error?: string } = {};
@@ -32,6 +34,11 @@ export async function GET() {
   }
 
   return NextResponse.json({
+    rawKeyId: {
+      length: rawKeyId.length,
+      firstCharCode: rawKeyId.charCodeAt(0),
+      hasTab: rawKeyId.charCodeAt(0) === 9,
+    },
     keyId: {
       value: keyId ? `${keyId.substring(0, 8)}...${keyId.substring(keyId.length - 4)}` : "EMPTY",
       length: keyId.length,
