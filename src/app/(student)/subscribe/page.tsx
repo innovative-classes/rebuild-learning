@@ -31,6 +31,7 @@ export default function SubscribePage() {
   const [couponId, setCouponId] = useState<string | null>(null);
   const [processing, setProcessing] = useState(false);
   const [applyingCoupon, setApplyingCoupon] = useState(false);
+  const [error, setError] = useState("");
 
   const basePrice = 999;
   const finalAmount = Math.max(0, basePrice - discount);
@@ -75,11 +76,19 @@ export default function SubscribePage() {
     });
 
     if (!res.ok) {
+      const errData = await res.json().catch(() => ({}));
+      setError(errData.error || "Payment failed. Please try again.");
       setProcessing(false);
       return;
     }
 
     const data = await res.json();
+
+    if (data.mode === "free") {
+      // 100% coupon discount — already completed server-side
+      router.push("/dashboard?upgraded=true");
+      return;
+    }
 
     if (data.mode === "razorpay" && data.razorpayOrderId) {
       const options = {
@@ -104,6 +113,7 @@ export default function SubscribePage() {
           if (confirmRes.ok) {
             router.push("/dashboard?upgraded=true");
           } else {
+            setError("Payment verification failed. Please contact support.");
             setProcessing(false);
           }
         },
@@ -118,17 +128,7 @@ export default function SubscribePage() {
       const rzp = new window.Razorpay(options);
       rzp.open();
     } else {
-      // Free (100% coupon discount) — confirm directly
-      const confirmRes = await fetch("/api/payments/confirm", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ paymentId: data.paymentId }),
-      });
-
-      if (confirmRes.ok) {
-        router.push("/dashboard?upgraded=true");
-        return;
-      }
+      setError("Payment gateway unavailable. Please try again later.");
       setProcessing(false);
     }
   }
@@ -213,8 +213,13 @@ export default function SubscribePage() {
         </div>
 
         {/* Pay button */}
+        {error && (
+          <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded-xl text-sm text-red-700">
+            {error}
+          </div>
+        )}
         <button
-          onClick={handlePayment}
+          onClick={() => { setError(""); handlePayment(); }}
           disabled={processing}
           className="w-full flex items-center justify-center gap-2 bg-red-600 text-white py-3 rounded-xl text-sm font-semibold hover:bg-red-700 disabled:opacity-50 transition"
         >

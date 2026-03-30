@@ -2,7 +2,6 @@ import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { NextRequest, NextResponse } from "next/server";
 import crypto from "crypto";
-import { isRazorpayConfigured } from "@/lib/razorpay";
 import { sendPaymentReceiptEmail, sendBookingConfirmationEmail, sendNewBookingAdminEmail } from "@/lib/email";
 
 export async function POST(req: NextRequest) {
@@ -30,9 +29,17 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "Invalid payment" }, { status: 400 });
   }
 
-  // Verify Razorpay signature if using real payments
-  if (isRazorpayConfigured() && razorpayPaymentId && razorpayOrderId && razorpaySignature) {
-    const webhookSecret = process.env.RAZORPAY_KEY_SECRET!;
+  // Verify Razorpay signature — REQUIRED for all paid transactions
+  if (payment.finalAmount > 0) {
+    if (!razorpayPaymentId || !razorpayOrderId || !razorpaySignature) {
+      return NextResponse.json({ error: "Missing payment verification data" }, { status: 400 });
+    }
+
+    const webhookSecret = process.env.RAZORPAY_KEY_SECRET;
+    if (!webhookSecret) {
+      return NextResponse.json({ error: "Payment verification unavailable" }, { status: 503 });
+    }
+
     const expectedSignature = crypto
       .createHmac("sha256", webhookSecret)
       .update(`${razorpayOrderId}|${razorpayPaymentId}`)
@@ -54,14 +61,11 @@ export async function POST(req: NextRequest) {
       },
     });
   } else {
-    // Simulation mode
-    await prisma.payment.update({
-      where: { id: paymentId },
-      data: {
-        status: "COMPLETED",
-        razorpayPaymentId: `sim_${Date.now()}`,
-      },
-    });
+    // Free (100% coupon) — already completed in create route
+    // Just ensure it was marked completed there
+    if (payment.status !== "COMPLETED") {
+      return NextResponse.json({ error: "Invalid payment state" }, { status: 400 });
+    }
   }
 
   // Increment coupon usage

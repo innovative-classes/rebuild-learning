@@ -90,40 +90,72 @@ export async function POST(req: NextRequest) {
     },
   });
 
-  // Create Razorpay order if configured, otherwise return for simulation
-  if (isRazorpayConfigured() && finalAmount > 0) {
-    try {
-      const razorpay = getRazorpay();
-      const order = await razorpay.orders.create({
-        amount: finalAmount * 100, // Razorpay expects paise
-        currency: "INR",
-        receipt: payment.id,
-        notes: {
-          paymentId: payment.id,
-          userId: session.user.id,
-          type,
-        },
-      });
+  // Free coupon — auto-complete if final amount is zero
+  if (finalAmount === 0) {
+    await prisma.payment.update({
+      where: { id: payment.id },
+      data: { status: "COMPLETED", razorpayPaymentId: `free_${Date.now()}` },
+    });
 
-      await prisma.payment.update({
-        where: { id: payment.id },
-        data: { razorpayOrderId: order.id },
+    // Handle post-payment grants for free coupon
+    if (type === "PREMIUM") {
+      await prisma.user.update({
+        where: { id: session.user.id },
+        data: { isPremium: true, premiumPurchasedAt: new Date() },
       });
-
-      return NextResponse.json({
-        paymentId: payment.id,
-        finalAmount,
-        razorpayOrderId: order.id,
-        razorpayKeyId: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
-        mode: "razorpay",
-      });
-    } catch (err) {
-      // Log the Razorpay error for debugging
-      console.error("[Razorpay] Order creation failed:", err);
-      // Fallback to simulation if Razorpay fails
-      return NextResponse.json({ paymentId: payment.id, finalAmount, mode: "simulation" });
     }
+    if (couponId) {
+      await prisma.coupon.update({
+        where: { id: couponId },
+        data: { usedCount: { increment: 1 } },
+      });
+    }
+
+    return NextResponse.json({ paymentId: payment.id, finalAmount, mode: "free" });
   }
 
-  return NextResponse.json({ paymentId: payment.id, finalAmount, mode: "simulation" });
+  // Razorpay is REQUIRED for all paid transactions
+  if (!isRazorpayConfigured()) {
+    console.error("[Payment] Razorpay not configured! RAZORPAY_KEY_ID and RAZORPAY_KEY_SECRET must be set.");
+    await prisma.payment.update({ where: { id: payment.id }, data: { status: "FAILED" } });
+    return NextResponse.json(
+      { error: "Payment gateway not configured. Please contact support." },
+      { status: 503 }
+    );
+  }
+
+  try {
+    const razorpay = getRazorpay();
+    const order = await razorpay.orders.create({
+      amount: finalAmount * 100, // Razorpay expects paise
+      currency: "INR",
+      receipt: payment.id,
+      notes: {
+        paymentId: payment.id,
+        userId: session.user.id,
+        type,
+      },
+    });
+
+    await prisma.payment.update({
+      where: { id: payment.id },
+      data: { razorpayOrderId: order.id },
+    });
+
+    return NextResponse.json({
+      paymentId: payment.id,
+      finalAmount,
+      razorpayOrderId: order.id,
+      razorpayKeyId: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
+      mode: "razorpay",
+    });
+  } catch (err) {
+    console.error("[Razorpay] Order creation failed:", err);
+    await prisma.payment.update({ where: { id: payment.id }, data: { status: "FAILED" } });
+    const message = err instanceof Error ? err.message : "Payment gateway error";
+    return NextResponse.json(
+      { error: `Payment failed: ${message}. Please try again.` },
+      { status: 502 }
+    );
+  }
 }

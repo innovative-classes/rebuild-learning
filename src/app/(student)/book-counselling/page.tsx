@@ -81,6 +81,11 @@ export default function BookCounsellingPage() {
 
     const data = await res.json();
 
+    if (data.mode === "free") {
+      setStep("success");
+      return;
+    }
+
     if (data.mode === "razorpay" && data.razorpayOrderId) {
       const options = {
         key: data.razorpayKeyId,
@@ -123,18 +128,7 @@ export default function BookCounsellingPage() {
       const rzp = new window.Razorpay(options);
       rzp.open();
     } else {
-      // Simulation mode
-      const confirmRes = await fetch("/api/payments/confirm", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ paymentId: data.paymentId }),
-      });
-
-      if (confirmRes.ok) {
-        setStep("success");
-        return;
-      }
-      setError("Payment confirmation failed.");
+      setError("Payment gateway unavailable. Please try again later.");
       setProcessing(false);
     }
   }
