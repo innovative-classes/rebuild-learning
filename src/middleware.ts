@@ -16,7 +16,6 @@ export default auth((req) => {
     "/api/auth", "/api/signup",
     "/api/verify-email", "/api/forgot-password", "/api/reset-password",
     "/api/webhooks/razorpay",
-    "/api/diag",
   ];
   if (
     publicPaths.includes(pathname) ||
