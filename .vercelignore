@@ -1,0 +1,7 @@
+.env
+.env.*
+!.env.example
+e2e/.auth/
+prisma/dev.db
+test-*.mjs
+*.cjs

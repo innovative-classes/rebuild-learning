@@ -151,7 +151,7 @@ export async function POST(req: NextRequest) {
       paymentId: payment.id,
       finalAmount,
       razorpayOrderId: order.id,
-      razorpayKeyId: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
+      razorpayKeyId: (process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID || "").trim(),
       mode: "razorpay",
     });
   } catch (err: unknown) {
