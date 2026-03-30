@@ -126,6 +126,9 @@ export async function POST(req: NextRequest) {
 
   try {
     const razorpay = getRazorpay();
+    console.log("[Razorpay] Creating order for amount:", finalAmount * 100, "receipt:", payment.id);
+    console.log("[Razorpay] Key ID configured:", process.env.RAZORPAY_KEY_ID ? `${process.env.RAZORPAY_KEY_ID.substring(0, 10)}...` : "MISSING");
+    
     const order = await razorpay.orders.create({
       amount: finalAmount * 100, // Razorpay expects paise
       currency: "INR",
@@ -136,6 +139,8 @@ export async function POST(req: NextRequest) {
         type,
       },
     });
+
+    console.log("[Razorpay] Order created successfully:", order.id);
 
     await prisma.payment.update({
       where: { id: payment.id },
@@ -149,10 +154,30 @@ export async function POST(req: NextRequest) {
       razorpayKeyId: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
       mode: "razorpay",
     });
-  } catch (err) {
-    console.error("[Razorpay] Order creation failed:", err);
+  } catch (err: unknown) {
+    console.error("[Razorpay] Order creation failed. Error type:", typeof err);
+    console.error("[Razorpay] Error:", JSON.stringify(err, null, 2));
+    console.error("[Razorpay] Error message:", err instanceof Error ? err.message : String(err));
+    if (err && typeof err === "object" && "error" in err) {
+      console.error("[Razorpay] API error:", JSON.stringify((err as Record<string, unknown>).error));
+    }
     await prisma.payment.update({ where: { id: payment.id }, data: { status: "FAILED" } });
-    const message = err instanceof Error ? err.message : "Payment gateway error";
+    
+    // Extract meaningful error message from various Razorpay error formats
+    let message = "Payment gateway error";
+    if (err instanceof Error) {
+      message = err.message;
+    } else if (err && typeof err === "object") {
+      const e = err as Record<string, unknown>;
+      if (e.error && typeof e.error === "object") {
+        const razorErr = e.error as Record<string, unknown>;
+        message = String(razorErr.description || razorErr.reason || "Gateway error");
+      } else if (e.message) {
+        message = String(e.message);
+      } else if (e.description) {
+        message = String(e.description);
+      }
+    }
     return NextResponse.json(
       { error: `Payment failed: ${message}. Please try again.` },
       { status: 502 }
