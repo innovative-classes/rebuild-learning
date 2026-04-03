@@ -122,7 +122,6 @@ export default function SubscribePage() {
             setProcessing(false);
           },
         },
-        theme: { color: "#dc2626" },
       };
 
       const rzp = new window.Razorpay(options);
