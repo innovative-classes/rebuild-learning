@@ -2,7 +2,7 @@
 
 export function LogoMark({ className = "w-8 h-8" }: { className?: string }) {
   return (
-    <div className={`${className} relative rounded-lg overflow-hidden flex items-center justify-center`}>
+    <div className={`${className} relative rounded-lg overflow-hidden flex items-center justify-center ring-2 ring-yellow-400/30`}>
       <img
         src="/subbu-innovative-classes.jpeg"
         alt="Rebuild Learning"
@@ -33,7 +33,7 @@ export function Logo({
 
   return (
     <div className={`flex items-center gap-2.5 ${className}`}>
-      <div className={`${s.icon} relative rounded-lg overflow-hidden flex items-center justify-center`}>
+      <div className={`${s.icon} relative rounded-lg overflow-hidden flex items-center justify-center ring-2 ring-yellow-400/30`}>
         <img
           src="/subbu-innovative-classes.jpeg"
           alt="Rebuild Learning"
@@ -42,9 +42,9 @@ export function Logo({
       </div>
       {showText && (
         <div>
-          <p className={`font-semibold text-neutral-900 ${s.text} leading-none`}>Rebuild Learning</p>
+          <p className={`font-semibold text-white ${s.text} leading-none`}>Rebuild Learning</p>
           {showSubtext && (
-            <p className={`text-neutral-400 ${s.subtext} mt-0.5`}>by N.B.V. Subba Rao</p>
+            <p className={`text-green-400/60 ${s.subtext} mt-0.5`}>by N.B.V. Subba Rao</p>
           )}
         </div>
       )}

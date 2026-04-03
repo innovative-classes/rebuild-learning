@@ -29,25 +29,25 @@ export default function StudentLayout({
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   return (
-    <div className="min-h-screen bg-neutral-50">
+    <div className="min-h-screen bg-green-50/50">
       {/* Mobile header */}
-      <div className="lg:hidden sticky top-0 z-50 bg-white border-b border-neutral-200 px-4 h-14 flex items-center justify-between">
-        <button onClick={() => setSidebarOpen(true)} className="p-1.5 hover:bg-neutral-100 rounded-lg" aria-label="Open navigation menu">
-          <Menu className="w-5 h-5 text-neutral-600" />
+      <div className="lg:hidden sticky top-0 z-50 bg-green-900 border-b border-green-800 px-4 h-14 flex items-center justify-between">
+        <button onClick={() => setSidebarOpen(true)} className="p-1.5 hover:bg-green-800 rounded-lg" aria-label="Open navigation menu">
+          <Menu className="w-5 h-5 text-green-100" />
         </button>
-        <Link href="/dashboard" className="font-semibold text-neutral-900 text-sm">Rebuild Learning</Link>
+        <Link href="/dashboard" className="font-semibold text-white text-sm">Rebuild Learning</Link>
         <div className="w-8" />
       </div>
 
       {/* Mobile overlay */}
       {sidebarOpen && (
         <div className="fixed inset-0 z-50 lg:hidden">
-          <div className="fixed inset-0 bg-black/30" onClick={() => setSidebarOpen(false)} />
-          <div className="fixed left-0 top-0 bottom-0 w-64 bg-white border-r border-neutral-200 p-4">
+          <div className="fixed inset-0 bg-black/40 backdrop-blur-sm" onClick={() => setSidebarOpen(false)} />
+          <div className="fixed left-0 top-0 bottom-0 w-64 bg-gradient-to-b from-green-900 to-green-950 border-r border-green-800 p-4">
             <div className="flex items-center justify-between mb-6">
-              <span className="font-semibold text-neutral-900">Menu</span>
-              <button onClick={() => setSidebarOpen(false)} className="p-1 hover:bg-neutral-100 rounded-lg">
-                <X className="w-5 h-5" />
+              <span className="font-semibold text-white">Menu</span>
+              <button onClick={() => setSidebarOpen(false)} className="p-1 hover:bg-green-800 rounded-lg">
+                <X className="w-5 h-5 text-green-200" />
               </button>
             </div>
             <SidebarContent pathname={pathname} isPremium={session?.user?.isPremium} onNavigate={() => setSidebarOpen(false)} />
@@ -56,7 +56,7 @@ export default function StudentLayout({
       )}
 
       {/* Desktop sidebar */}
-      <aside className="hidden lg:flex lg:flex-col lg:fixed lg:inset-y-0 lg:w-64 bg-white border-r border-neutral-200">
+      <aside className="hidden lg:flex lg:flex-col lg:fixed lg:inset-y-0 lg:w-64 bg-gradient-to-b from-green-900 to-green-950 border-r border-green-800">
         <div className="p-6">
           <Link href="/dashboard" className="flex items-center gap-2.5">
             <Logo />
@@ -65,21 +65,21 @@ export default function StudentLayout({
         <div className="flex-1 px-3">
           <SidebarContent pathname={pathname} isPremium={session?.user?.isPremium} />
         </div>
-        <div className="p-4 border-t border-neutral-200">
-          <Link href="/profile" className="flex items-center gap-3 mb-3 hover:bg-neutral-50 rounded-lg p-1 -m-1 transition">
-            <div className="w-8 h-8 bg-neutral-100 rounded-full flex items-center justify-center">
-              <span className="text-xs font-medium text-neutral-600">
+        <div className="p-4 border-t border-green-800">
+          <Link href="/profile" className="flex items-center gap-3 mb-3 hover:bg-green-800/50 rounded-lg p-1 -m-1 transition">
+            <div className="w-8 h-8 bg-yellow-500/20 rounded-full flex items-center justify-center ring-2 ring-yellow-500/30">
+              <span className="text-xs font-medium text-yellow-400">
                 {session?.user?.name?.[0]?.toUpperCase() || "U"}
               </span>
             </div>
             <div className="flex-1 min-w-0">
-              <p className="text-sm font-medium text-neutral-900 truncate">{session?.user?.name}</p>
-              <p className="text-xs text-neutral-500 truncate">{session?.user?.email}</p>
+              <p className="text-sm font-medium text-white truncate">{session?.user?.name}</p>
+              <p className="text-xs text-green-400/60 truncate">{session?.user?.email}</p>
             </div>
           </Link>
           <button
             onClick={() => signOut({ callbackUrl: "/login" })}
-            className="w-full flex items-center gap-2 px-3 py-2 text-sm text-neutral-600 hover:text-neutral-900 hover:bg-neutral-100 rounded-lg transition"
+            className="w-full flex items-center gap-2 px-3 py-2 text-sm text-green-300/70 hover:text-white hover:bg-green-800/50 rounded-lg transition"
           >
             <LogOut className="w-4 h-4" />
             Sign out
@@ -116,10 +116,10 @@ function SidebarContent({
             key={item.href}
             href={item.href}
             onClick={onNavigate}
-            className={`flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition ${
+            className={`flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-all duration-200 ${
               active
-                ? "bg-red-600 text-white"
-                : "text-neutral-600 hover:text-neutral-900 hover:bg-neutral-100"
+                ? "bg-yellow-500/15 text-yellow-400 border border-yellow-500/20"
+                : "text-green-300/70 hover:text-white hover:bg-green-800/50"
             }`}
           >
             <Icon className="w-4.5 h-4.5" />
@@ -132,7 +132,7 @@ function SidebarContent({
         <Link
           href="/subscribe"
           onClick={onNavigate}
-          className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium bg-gradient-to-r from-amber-50 to-orange-50 text-amber-800 border border-amber-200 hover:from-amber-100 hover:to-orange-100 transition mt-4"
+          className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium bg-gradient-to-r from-red-600/20 to-red-500/20 text-red-400 border border-red-500/20 hover:from-red-600/30 hover:to-red-500/30 transition mt-4"
         >
           <Crown className="w-4.5 h-4.5" />
           Go Premium — ₹999

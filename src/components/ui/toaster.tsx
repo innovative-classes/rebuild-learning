@@ -62,12 +62,12 @@ export function Toaster() {
           className={`rounded-lg border px-4 py-3 shadow-lg transition-all ${
             t.variant === "destructive"
               ? "bg-red-50 border-red-200 text-red-800"
-              : "bg-white border-neutral-200 text-neutral-900"
+              : "bg-white border-green-200/50 text-green-900"
           }`}
         >
           <p className="font-medium text-sm">{t.title}</p>
           {t.description && (
-            <p className="text-xs text-neutral-600 mt-1">{t.description}</p>
+            <p className="text-xs text-green-700 mt-1">{t.description}</p>
           )}
         </div>
       ))}

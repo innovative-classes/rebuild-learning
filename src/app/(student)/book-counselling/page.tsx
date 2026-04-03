@@ -137,19 +137,19 @@ export default function BookCounsellingPage() {
   if (step === "success") {
     return (
       <div className="max-w-md mx-auto text-center py-12">
-        <div className="w-16 h-16 bg-emerald-50 rounded-full flex items-center justify-center mx-auto mb-4">
-          <CheckCircle className="w-8 h-8 text-emerald-500" />
+        <div className="w-16 h-16 bg-green-50 rounded-full flex items-center justify-center mx-auto mb-4">
+          <CheckCircle className="w-8 h-8 text-green-600" />
         </div>
-        <h1 className="text-xl font-bold text-neutral-900 mb-2">Booking Confirmed!</h1>
-        <p className="text-sm text-neutral-500 mb-2">
+        <h1 className="text-xl font-bold text-green-900 mb-2">Booking Confirmed!</h1>
+        <p className="text-sm text-green-600/60 mb-2">
           Payment of ₹{COUNSELLING_FEE.toLocaleString("en-IN")} received successfully.
         </p>
-        <p className="text-sm text-neutral-500 mb-6">
+        <p className="text-sm text-green-600/60 mb-6">
           We&apos;ll confirm your counselling session within 24 hours via email and phone.
         </p>
         <button
           onClick={() => router.push("/dashboard")}
-          className="text-sm font-medium text-neutral-900 hover:underline"
+          className="text-sm font-medium text-green-800 hover:underline"
         >
           Go to Dashboard
         </button>
@@ -163,39 +163,39 @@ export default function BookCounsellingPage() {
       <div className="max-w-md mx-auto">
         <Script src="https://checkout.razorpay.com/v1/checkout.js" strategy="lazyOnload" />
 
-        <h1 className="text-xl font-bold text-neutral-900 mb-1">Complete Payment</h1>
-        <p className="text-sm text-neutral-500 mb-6">
+        <h1 className="text-xl font-bold text-green-900 mb-1">Complete Payment</h1>
+        <p className="text-sm text-green-600/60 mb-6">
           Pay ₹{COUNSELLING_FEE.toLocaleString("en-IN")} to confirm your counselling session.
         </p>
 
-        <div className="bg-white rounded-2xl border border-neutral-200 p-6 sm:p-8">
+        <div className="bg-white rounded-2xl border border-green-200/50 p-6 sm:p-8 shadow-sm">
           {/* Booking Summary */}
           <div className="space-y-3 mb-6">
-            <h2 className="text-sm font-semibold text-neutral-900">Booking Summary</h2>
-            <div className="bg-neutral-50 rounded-xl p-4 space-y-2 text-sm">
+            <h2 className="text-sm font-semibold text-green-900">Booking Summary</h2>
+            <div className="bg-green-50/50 rounded-xl p-4 space-y-2 text-sm">
               <div className="flex justify-between">
-                <span className="text-neutral-500">Session</span>
-                <span className="text-neutral-900 font-medium">30-min Career Counselling</span>
+                <span className="text-green-600/60">Session</span>
+                <span className="text-green-900 font-medium">30-min Career Counselling</span>
               </div>
               <div className="flex justify-between">
-                <span className="text-neutral-500">Counsellor</span>
-                <span className="text-neutral-900 font-medium">N.B.V. Subba Rao</span>
+                <span className="text-green-600/60">Counsellor</span>
+                <span className="text-green-900 font-medium">N.B.V. Subba Rao</span>
               </div>
               <div className="flex justify-between">
-                <span className="text-neutral-500">Date</span>
-                <span className="text-neutral-900 font-medium">{form.preferredDate}</span>
+                <span className="text-green-600/60">Date</span>
+                <span className="text-green-900 font-medium">{form.preferredDate}</span>
               </div>
               <div className="flex justify-between">
-                <span className="text-neutral-500">Time</span>
-                <span className="text-neutral-900 font-medium">{form.preferredTime}</span>
+                <span className="text-green-600/60">Time</span>
+                <span className="text-green-900 font-medium">{form.preferredTime}</span>
               </div>
             </div>
           </div>
 
           {/* Price */}
-          <div className="flex items-center justify-between py-4 border-t border-neutral-200 mb-6">
-            <span className="text-sm font-semibold text-neutral-900">Total Amount</span>
-            <span className="text-2xl font-bold text-neutral-900 flex items-center gap-1">
+          <div className="flex items-center justify-between py-4 border-t border-green-200/50 mb-6">
+            <span className="text-sm font-semibold text-green-900">Total Amount</span>
+            <span className="text-2xl font-bold text-green-900 flex items-center gap-1">
               <IndianRupee className="w-5 h-5" />
               {COUNSELLING_FEE.toLocaleString("en-IN")}
             </span>
@@ -206,7 +206,7 @@ export default function BookCounsellingPage() {
           <button
             onClick={handlePayment}
             disabled={processing}
-            className="w-full flex items-center justify-center gap-2 bg-red-600 text-white py-3 rounded-xl text-sm font-semibold hover:bg-red-700 disabled:opacity-50 transition"
+            className="w-full flex items-center justify-center gap-2 bg-gradient-to-r from-red-500 to-red-600 text-white py-3 rounded-xl text-sm font-semibold hover:from-red-600 hover:to-red-700 disabled:opacity-50 transition shadow-lg shadow-red-600/10"
           >
             {processing ? (
               <>
@@ -221,7 +221,7 @@ export default function BookCounsellingPage() {
             )}
           </button>
 
-          <div className="flex items-center justify-center gap-1.5 mt-4 text-xs text-neutral-400">
+          <div className="flex items-center justify-center gap-1.5 mt-4 text-xs text-green-500/50">
             <svg viewBox="0 0 24 24" className="w-3.5 h-3.5" fill="none" stroke="currentColor" strokeWidth="2">
               <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
               <path d="m7 11 0-4a5 5 0 0 1 10 0l0 4"></path>
@@ -232,7 +232,7 @@ export default function BookCounsellingPage() {
 
         <button
           onClick={() => setStep("form")}
-          className="mt-4 text-sm text-neutral-500 hover:text-neutral-700 transition"
+          className="mt-4 text-sm text-green-600/60 hover:text-green-800 transition"
         >
           ← Edit booking details
         </button>
@@ -243,51 +243,51 @@ export default function BookCounsellingPage() {
   // ── Booking Form Screen ──
   return (
     <div className="max-w-lg mx-auto">
-      <h1 className="text-xl font-bold text-neutral-900 mb-1">Book Counselling Session</h1>
-      <p className="text-sm text-neutral-500 mb-6">
+      <h1 className="text-xl font-bold text-green-900 mb-1">Book Counselling Session</h1>
+      <p className="text-sm text-green-600/60 mb-6">
         Schedule a 30-minute one-on-one session with N.B.V. Subba Rao for personalised career guidance.
-        <span className="block mt-1 font-medium text-neutral-700">Fee: ₹{COUNSELLING_FEE.toLocaleString("en-IN")}</span>
+        <span className="block mt-1 font-medium text-green-800">Fee: ₹{COUNSELLING_FEE.toLocaleString("en-IN")}</span>
       </p>
 
-      <form onSubmit={handleFormSubmit} className="bg-white rounded-2xl border border-neutral-200 p-6 sm:p-8">
+      <form onSubmit={handleFormSubmit} className="bg-white rounded-2xl border border-green-200/50 p-6 sm:p-8 shadow-sm">
         <div className="space-y-4">
           <div>
-            <label className="block text-sm font-medium text-neutral-700 mb-1.5">Full Name</label>
+            <label className="block text-sm font-medium text-green-800 mb-1.5">Full Name</label>
             <input
               type="text"
               required
               value={form.name}
               onChange={(e) => updateField("name", e.target.value)}
-              className="w-full px-3 py-2.5 border border-neutral-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-neutral-900 focus:border-transparent"
+              className="w-full px-3 py-2.5 border border-green-200 rounded-lg text-sm text-green-900 focus:outline-none focus:ring-2 focus:ring-green-600 focus:border-transparent"
             />
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-neutral-700 mb-1.5">Email</label>
+            <label className="block text-sm font-medium text-green-800 mb-1.5">Email</label>
             <input
               type="email"
               required
               value={form.email}
               onChange={(e) => updateField("email", e.target.value)}
-              className="w-full px-3 py-2.5 border border-neutral-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-neutral-900 focus:border-transparent"
+              className="w-full px-3 py-2.5 border border-green-200 rounded-lg text-sm text-green-900 focus:outline-none focus:ring-2 focus:ring-green-600 focus:border-transparent"
             />
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-neutral-700 mb-1.5">Phone Number</label>
+            <label className="block text-sm font-medium text-green-800 mb-1.5">Phone Number</label>
             <input
               type="tel"
               required
               value={form.phone}
               onChange={(e) => updateField("phone", e.target.value)}
               placeholder="+91 98765 43210"
-              className="w-full px-3 py-2.5 border border-neutral-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-neutral-900 focus:border-transparent"
+              className="w-full px-3 py-2.5 border border-green-200 rounded-lg text-sm text-green-900 focus:outline-none focus:ring-2 focus:ring-green-600 focus:border-transparent"
             />
           </div>
 
           <div className="grid grid-cols-2 gap-3">
             <div>
-              <label className="flex items-center gap-1.5 text-sm font-medium text-neutral-700 mb-1.5">
+              <label className="flex items-center gap-1.5 text-sm font-medium text-green-800 mb-1.5">
                 <Calendar className="w-3.5 h-3.5" />
                 Preferred Date
               </label>
@@ -297,11 +297,11 @@ export default function BookCounsellingPage() {
                 value={form.preferredDate}
                 onChange={(e) => updateField("preferredDate", e.target.value)}
                 min={new Date().toISOString().split("T")[0]}
-                className="w-full px-3 py-2.5 border border-neutral-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-neutral-900 focus:border-transparent"
+                className="w-full px-3 py-2.5 border border-green-200 rounded-lg text-sm text-green-900 focus:outline-none focus:ring-2 focus:ring-green-600 focus:border-transparent"
               />
             </div>
             <div>
-              <label className="flex items-center gap-1.5 text-sm font-medium text-neutral-700 mb-1.5">
+              <label className="flex items-center gap-1.5 text-sm font-medium text-green-800 mb-1.5">
                 <Clock className="w-3.5 h-3.5" />
                 Preferred Time
               </label>
@@ -309,7 +309,7 @@ export default function BookCounsellingPage() {
                 required
                 value={form.preferredTime}
                 onChange={(e) => updateField("preferredTime", e.target.value)}
-                className="w-full px-3 py-2.5 border border-neutral-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-neutral-900 focus:border-transparent bg-white"
+                className="w-full px-3 py-2.5 border border-green-200 rounded-lg text-sm text-green-900 focus:outline-none focus:ring-2 focus:ring-green-600 focus:border-transparent bg-white"
               >
                 <option value="">Select time</option>
                 <option value="09:00 AM">09:00 AM</option>
@@ -326,13 +326,13 @@ export default function BookCounsellingPage() {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-neutral-700 mb-1.5">Message (optional)</label>
+            <label className="block text-sm font-medium text-green-800 mb-1.5">Message (optional)</label>
             <textarea
               rows={3}
               value={form.message}
               onChange={(e) => updateField("message", e.target.value)}
               placeholder="Any specific questions or topics you'd like to discuss?"
-              className="w-full px-3 py-2.5 border border-neutral-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-neutral-900 focus:border-transparent resize-none"
+              className="w-full px-3 py-2.5 border border-green-200 rounded-lg text-sm text-green-900 focus:outline-none focus:ring-2 focus:ring-green-600 focus:border-transparent resize-none"
             />
           </div>
         </div>
@@ -344,7 +344,7 @@ export default function BookCounsellingPage() {
         <button
           type="submit"
           disabled={submitting}
-          className="w-full mt-6 flex items-center justify-center gap-2 bg-red-600 text-white py-3 rounded-xl text-sm font-semibold hover:bg-red-700 disabled:opacity-50 transition"
+          className="w-full mt-6 flex items-center justify-center gap-2 bg-gradient-to-r from-red-500 to-red-600 text-white py-3 rounded-xl text-sm font-semibold hover:from-red-600 hover:to-red-700 disabled:opacity-50 transition shadow-lg shadow-red-600/10"
         >
           {submitting ? (
             <>

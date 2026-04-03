@@ -1,21 +1,22 @@
 @import "tailwindcss";
 
 @theme inline {
-  --color-background: #ffffff;
-  --color-foreground: #0a0a0a;
-  --color-muted: #f5f5f5;
-  --color-muted-foreground: #737373;
-  --color-border: #e5e5e5;
-  --color-input: #e5e5e5;
-  --color-ring: #dc2626;
-  --color-primary: #dc2626;
+  --color-background: #fafdf7;
+  --color-foreground: #1a2e1a;
+  --color-muted: #f0f7ec;
+  --color-muted-foreground: #4a6b4a;
+  --color-border: #d4e5c8;
+  --color-input: #d4e5c8;
+  --color-ring: #166534;
+  --color-primary: #166534;
   --color-primary-foreground: #fafafa;
-  --color-secondary: #f5f5f5;
-  --color-secondary-foreground: #0a0a0a;
-  --color-accent: #f5f5f5;
-  --color-accent-foreground: #0a0a0a;
-  --color-destructive: #ef4444;
+  --color-secondary: #f0f7ec;
+  --color-secondary-foreground: #1a2e1a;
+  --color-accent: #fbbf24;
+  --color-accent-foreground: #422006;
+  --color-destructive: #dc2626;
   --color-destructive-foreground: #fafafa;
+  --color-card: #ffffff;
   --font-sans: var(--font-inter);
 }
 
@@ -27,4 +28,64 @@ body {
   background: var(--color-background);
   color: var(--color-foreground);
   font-family: var(--font-sans), system-ui, sans-serif;
+}
+
+/* Smooth scroll for anchor links */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Custom animations */
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+}
+
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(22, 101, 52, 0.3); }
+  50% { box-shadow: 0 0 20px 5px rgba(22, 101, 52, 0.15); }
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+@keyframes gradient-shift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.animate-float {
+  animation: float 3s ease-in-out infinite;
+}
+
+.animate-pulse-glow {
+  animation: pulse-glow 2s ease-in-out infinite;
+}
+
+.animate-shimmer {
+  background-size: 200% 100%;
+  animation: shimmer 2s linear infinite;
+}
+
+.animate-gradient {
+  background-size: 200% 200%;
+  animation: gradient-shift 4s ease infinite;
+}
+
+/* Glassmorphism utility */
+.glass {
+  backdrop-filter: blur(12px) saturate(180%);
+  -webkit-backdrop-filter: blur(12px) saturate(180%);
+}
+
+/* Hover card lift effect */
+.card-hover {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.card-hover:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 40px -8px rgba(22, 101, 52, 0.15);
 }

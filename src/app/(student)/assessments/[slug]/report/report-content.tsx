@@ -86,7 +86,7 @@ export default function ReportContent({
         <div className="flex items-center justify-between mb-4 no-print">
           <Link
             href={`/assessments/${slug}`}
-            className="flex items-center gap-1 text-sm text-neutral-500 hover:text-neutral-900 transition"
+            className="flex items-center gap-1 text-sm text-green-600/60 hover:text-green-900 transition"
           >
             <ArrowLeft className="w-4 h-4" />
             Back to Module
@@ -342,7 +342,7 @@ export default function ReportContent({
             </p>
             <Link
               href="/book-counselling"
-              className="inline-flex items-center gap-2 bg-white text-neutral-900 px-5 py-2.5 rounded-lg text-sm font-medium hover:bg-neutral-100 transition"
+              className="inline-flex items-center gap-2 bg-white text-green-900 px-5 py-2.5 rounded-lg text-sm font-medium hover:bg-green-100/50 transition"
             >
               Book Free Session
             </Link>

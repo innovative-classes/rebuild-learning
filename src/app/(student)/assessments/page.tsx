@@ -31,8 +31,8 @@ export default async function AssessmentsPage() {
   return (
     <div>
       <div className="mb-8">
-        <h1 className="text-2xl font-bold text-neutral-900">Career Assessments</h1>
-        <p className="text-neutral-500 mt-1">
+        <h1 className="text-2xl font-bold text-green-900">Career Assessments</h1>
+        <p className="text-green-700/60 mt-1">
           Take scientifically scored quizzes to discover your career fit across 12 domains.
         </p>
       </div>
@@ -49,16 +49,16 @@ export default async function AssessmentsPage() {
             <Link
               key={assessment.id}
               href={hasQuestions ? `/assessments/${assessment.slug}` : "#"}
-              className={`group relative bg-white rounded-xl p-5 border transition-all duration-200 ${
+              className={`group relative bg-white rounded-xl p-5 border transition-all duration-200 shadow-sm ${
                 hasQuestions
-                  ? "border-neutral-200 hover:border-neutral-300 hover:shadow-md cursor-pointer"
-                  : "border-neutral-100 opacity-60 cursor-not-allowed"
+                  ? "border-green-200/50 hover:border-green-300 hover:shadow-md cursor-pointer"
+                  : "border-green-100/50 opacity-60 cursor-not-allowed"
               }`}
             >
               {/* Status badge */}
               {isCompleted && (
                 <div className="absolute top-4 right-4">
-                  <div className="flex items-center gap-1 px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-700 text-xs font-medium">
+                  <div className="flex items-center gap-1 px-2 py-0.5 rounded-full bg-green-100 text-green-800 text-xs font-medium">
                     <CheckCircle2 className="w-3 h-3" />
                     {latestAttempt.totalScore}/16
                   </div>
@@ -66,14 +66,14 @@ export default async function AssessmentsPage() {
               )}
               {isInProgress && (
                 <div className="absolute top-4 right-4">
-                  <div className="px-2 py-0.5 rounded-full bg-amber-50 text-amber-700 text-xs font-medium">
+                  <div className="px-2 py-0.5 rounded-full bg-yellow-100 text-yellow-800 text-xs font-medium">
                     In Progress
                   </div>
                 </div>
               )}
               {!hasQuestions && (
                 <div className="absolute top-4 right-4">
-                  <div className="flex items-center gap-1 px-2 py-0.5 rounded-full bg-neutral-100 text-neutral-500 text-xs font-medium">
+                  <div className="flex items-center gap-1 px-2 py-0.5 rounded-full bg-green-50 text-green-600 text-xs font-medium">
                     <Lock className="w-3 h-3" />
                     Coming Soon
                   </div>
@@ -83,29 +83,29 @@ export default async function AssessmentsPage() {
               <div className="flex items-start gap-3 mb-3">
                 <div
                   className="w-10 h-10 rounded-lg flex items-center justify-center shrink-0"
-                  style={{ backgroundColor: `${assessment.accentColor}10` }}
+                  style={{ backgroundColor: `${assessment.accentColor}15` }}
                 >
                   <Icon className="w-5 h-5" style={{ color: assessment.accentColor }} />
                 </div>
                 <div className="min-w-0">
-                  <span className="text-[10px] font-mono text-neutral-400 block">
+                  <span className="text-[10px] font-mono text-green-500/50 block">
                     Module {String(assessment.moduleNumber).padStart(2, "0")}
                   </span>
-                  <h3 className="font-semibold text-neutral-900 text-sm leading-snug mt-0.5">
+                  <h3 className="font-semibold text-green-900 text-sm leading-snug mt-0.5 group-hover:text-green-700 transition-colors">
                     {assessment.title}
                   </h3>
                 </div>
               </div>
 
-              <p className="text-xs text-neutral-500 line-clamp-2 mb-3">
+              <p className="text-xs text-green-600/50 line-clamp-2 mb-3">
                 {assessment.description}
               </p>
 
               <div className="flex items-center gap-2 flex-wrap">
-                <span className="text-[10px] px-2 py-0.5 rounded-full bg-neutral-100 text-neutral-600">
+                <span className="text-[10px] px-2 py-0.5 rounded-full bg-green-50 text-green-700 border border-green-100">
                   {assessment.stream}
                 </span>
-                <span className="text-[10px] px-2 py-0.5 rounded-full bg-neutral-100 text-neutral-600">
+                <span className="text-[10px] px-2 py-0.5 rounded-full bg-yellow-50 text-yellow-700 border border-yellow-100">
                   {assessment.salaryRange}
                 </span>
               </div>

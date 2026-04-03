@@ -137,29 +137,29 @@ export default function SubscribePage() {
     <div className="max-w-md mx-auto">
       <Script src="https://checkout.razorpay.com/v1/checkout.js" strategy="lazyOnload" />
       <div className="mb-4">
-        <Link href="/dashboard" className="text-sm text-neutral-500 hover:text-neutral-900 transition">
+        <Link href="/dashboard" className="text-sm text-green-600/60 hover:text-green-800 transition">
           ← Back to Dashboard
         </Link>
       </div>
 
-      <div className="bg-white rounded-2xl border border-neutral-200 p-6 sm:p-8">
+      <div className="bg-white rounded-2xl border border-green-200/50 p-6 sm:p-8 shadow-sm">
         <div className="flex items-center gap-3 mb-4">
-          <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-neutral-900 to-neutral-700 flex items-center justify-center">
-            <Crown className="w-5 h-5 text-white" />
+          <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-green-800 to-green-900 flex items-center justify-center">
+            <Crown className="w-5 h-5 text-yellow-400" />
           </div>
           <div>
-            <h1 className="text-xl font-bold text-neutral-900">Premium Plan</h1>
-            <p className="text-sm text-neutral-500">One-time payment, lifetime access</p>
+            <h1 className="text-xl font-bold text-green-900">Premium Plan</h1>
+            <p className="text-sm text-green-600/60">One-time payment, lifetime access</p>
           </div>
         </div>
 
         {/* Benefits */}
-        <div className="bg-neutral-50 rounded-xl p-4 mb-6">
+        <div className="bg-green-50/50 rounded-xl p-4 mb-6">
           <ul className="space-y-3">
             {benefits.map((b, i) => (
               <li key={i} className="flex items-start gap-2.5 text-sm">
-                <Check className="w-4 h-4 text-emerald-500 shrink-0 mt-0.5" />
-                <span className="text-neutral-700">{b}</span>
+                <Check className="w-4 h-4 text-green-600 shrink-0 mt-0.5" />
+                <span className="text-green-800">{b}</span>
               </li>
             ))}
           </ul>
@@ -168,24 +168,24 @@ export default function SubscribePage() {
         {/* Price */}
         <div className="space-y-3 mb-6">
           <div className="flex justify-between text-sm">
-            <span className="text-neutral-600">Premium subscription</span>
-            <span className="text-neutral-900 font-medium">₹{basePrice}</span>
+            <span className="text-green-700">Premium subscription</span>
+            <span className="text-green-900 font-medium">₹{basePrice}</span>
           </div>
           {discount > 0 && (
             <div className="flex justify-between text-sm">
-              <span className="text-emerald-600">Coupon discount</span>
-              <span className="text-emerald-600 font-medium">-₹{discount}</span>
+              <span className="text-green-600">Coupon discount</span>
+              <span className="text-green-600 font-medium">-₹{discount}</span>
             </div>
           )}
-          <div className="border-t border-neutral-200 pt-3 flex justify-between">
-            <span className="text-neutral-900 font-semibold">Total</span>
-            <span className="text-neutral-900 font-bold text-lg">₹{finalAmount}</span>
+          <div className="border-t border-green-200/50 pt-3 flex justify-between">
+            <span className="text-green-900 font-semibold">Total</span>
+            <span className="text-green-900 font-bold text-lg">₹{finalAmount}</span>
           </div>
         </div>
 
         {/* Coupon */}
         <div className="mb-6">
-          <label className="flex items-center gap-2 text-sm font-medium text-neutral-700 mb-2">
+          <label className="flex items-center gap-2 text-sm font-medium text-green-800 mb-2">
             <Tag className="w-4 h-4" />
             Have a coupon code?
           </label>
@@ -195,18 +195,18 @@ export default function SubscribePage() {
               value={couponCode}
               onChange={(e) => setCouponCode(e.target.value.toUpperCase())}
               placeholder="ENTER CODE"
-              className="flex-1 px-3 py-2 border border-neutral-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-neutral-900 focus:border-transparent font-mono"
+              className="flex-1 px-3 py-2 border border-green-200 rounded-lg text-sm text-green-900 focus:outline-none focus:ring-2 focus:ring-green-600 focus:border-transparent font-mono"
             />
             <button
               onClick={applyCoupon}
               disabled={applyingCoupon || !couponCode.trim()}
-              className="px-4 py-2 bg-neutral-100 border border-neutral-300 text-neutral-700 text-sm font-medium rounded-lg hover:bg-neutral-200 disabled:opacity-50 transition"
+              className="px-4 py-2 bg-green-50 border border-green-200 text-green-800 text-sm font-medium rounded-lg hover:bg-green-100 disabled:opacity-50 transition"
             >
               {applyingCoupon ? "..." : "Apply"}
             </button>
           </div>
           {couponMsg && (
-            <p className={`text-xs mt-1.5 ${couponError ? "text-red-500" : "text-emerald-600"}`}>
+            <p className={`text-xs mt-1.5 ${couponError ? "text-red-500" : "text-green-600"}`}>
               {couponMsg}
             </p>
           )}
@@ -221,7 +221,7 @@ export default function SubscribePage() {
         <button
           onClick={() => { setError(""); handlePayment(); }}
           disabled={processing}
-          className="w-full flex items-center justify-center gap-2 bg-red-600 text-white py-3 rounded-xl text-sm font-semibold hover:bg-red-700 disabled:opacity-50 transition"
+          className="w-full flex items-center justify-center gap-2 bg-gradient-to-r from-red-500 to-red-600 text-white py-3 rounded-xl text-sm font-semibold hover:from-red-600 hover:to-red-700 disabled:opacity-50 transition shadow-lg shadow-red-600/10"
         >
           {processing ? (
             <>
@@ -236,7 +236,7 @@ export default function SubscribePage() {
           )}
         </button>
 
-        <p className="text-xs text-neutral-400 text-center mt-3">
+        <p className="text-xs text-green-500/50 text-center mt-3">
           Secure payment powered by Razorpay
         </p>
       </div>

@@ -87,7 +87,7 @@ export default function QuizAttemptPage() {
   if (loading) {
     return (
       <div className="flex items-center justify-center py-24">
-        <Loader2 className="w-6 h-6 animate-spin text-neutral-400" />
+        <Loader2 className="w-6 h-6 animate-spin text-green-500/60" />
       </div>
     );
   }
@@ -95,8 +95,8 @@ export default function QuizAttemptPage() {
   if (!data) {
     return (
       <div className="max-w-2xl text-center py-24">
-        <p className="text-neutral-500">Unable to load quiz. Please try again.</p>
-        <Link href="/assessments" className="text-sm text-neutral-900 hover:underline mt-2 inline-block">
+        <p className="text-green-600/60">Unable to load quiz. Please try again.</p>
+        <Link href="/assessments" className="text-sm text-green-900 hover:underline mt-2 inline-block">
           Back to assessments
         </Link>
       </div>
@@ -117,7 +117,7 @@ export default function QuizAttemptPage() {
   return (
     <div className="max-w-2xl mx-auto">
       <div className="mb-4">
-        <Link href={`/assessments/${slug}`} className="text-sm text-neutral-500 hover:text-neutral-900 transition">
+        <Link href={`/assessments/${slug}`} className="text-sm text-green-600/60 hover:text-green-900 transition">
           ← Back to module
         </Link>
       </div>
@@ -125,14 +125,14 @@ export default function QuizAttemptPage() {
       {/* Progress bar */}
       <div className="mb-8">
         <div className="flex items-center justify-between mb-2">
-          <span className="text-sm font-medium text-neutral-900">
+          <span className="text-sm font-medium text-green-900">
             Question {currentQ + 1} of {totalQuestions}
           </span>
-          <span className="text-sm text-neutral-400">
+          <span className="text-sm text-green-500/60">
             {Object.keys(answers).length}/{totalQuestions} answered
           </span>
         </div>
-        <div className="h-1.5 bg-neutral-100 rounded-full overflow-hidden">
+        <div className="h-1.5 bg-green-100/50 rounded-full overflow-hidden">
           <div
             className="h-full bg-red-600 rounded-full transition-all duration-300"
             style={{ width: `${((currentQ + 1) / totalQuestions) * 100}%` }}
@@ -141,8 +141,8 @@ export default function QuizAttemptPage() {
       </div>
 
       {/* Question Card */}
-      <div className="bg-white rounded-2xl border border-neutral-200 p-6 sm:p-8 mb-6">
-        <p className="text-lg font-medium text-neutral-900 leading-relaxed mb-8">
+      <div className="bg-white rounded-2xl border border-green-200/50 p-6 sm:p-8 mb-6">
+        <p className="text-lg font-medium text-green-900 leading-relaxed mb-8">
           {question.questionText}
         </p>
 
@@ -154,7 +154,7 @@ export default function QuizAttemptPage() {
               className={`w-full text-left p-4 rounded-xl border-2 transition-all duration-200 ${
                 selectedOption === opt.value
                   ? "border-red-600 bg-red-50"
-                  : "border-neutral-200 hover:border-neutral-300 hover:bg-neutral-50"
+                  : "border-green-200/50 hover:border-green-200 hover:bg-green-50/50"
               }`}
             >
               <div className="flex items-start gap-3">
@@ -162,12 +162,12 @@ export default function QuizAttemptPage() {
                   className={`w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold shrink-0 mt-0.5 ${
                     selectedOption === opt.value
                       ? "bg-red-600 text-white"
-                      : "bg-neutral-100 text-neutral-600"
+                      : "bg-green-100/50 text-green-700"
                   }`}
                 >
                   {opt.label}
                 </span>
-                <span className="text-sm text-neutral-700 leading-relaxed">{opt.text}</span>
+                <span className="text-sm text-green-700 leading-relaxed">{opt.text}</span>
               </div>
             </button>
           ))}
@@ -179,7 +179,7 @@ export default function QuizAttemptPage() {
         <button
           onClick={() => setCurrentQ(Math.max(0, currentQ - 1))}
           disabled={currentQ === 0}
-          className="flex items-center gap-2 px-4 py-2.5 text-sm font-medium text-neutral-600 hover:text-neutral-900 disabled:opacity-30 disabled:cursor-not-allowed transition"
+          className="flex items-center gap-2 px-4 py-2.5 text-sm font-medium text-green-700 hover:text-green-900 disabled:opacity-30 disabled:cursor-not-allowed transition"
         >
           <ArrowLeft className="w-4 h-4" />
           Previous
@@ -222,8 +222,8 @@ export default function QuizAttemptPage() {
               i === currentQ
                 ? "bg-red-600 scale-125"
                 : answers[q.id]
-                ? "bg-neutral-400"
-                : "bg-neutral-200"
+                ? "bg-green-400"
+                : "bg-green-200/50"
             }`}
           />
         ))}

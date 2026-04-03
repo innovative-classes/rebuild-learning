@@ -52,14 +52,14 @@ export default async function ResultsPage({
   return (
     <div className="max-w-2xl mx-auto">
       <div className="mb-4">
-        <Link href="/assessments" className="text-sm text-neutral-500 hover:text-neutral-900 transition">
+        <Link href="/assessments" className="text-sm text-green-600/60 hover:text-green-900 transition">
           ← Back to Assessments
         </Link>
       </div>
 
       {/* Score Card */}
-      <div className="bg-white rounded-2xl border border-neutral-200 p-8 text-center mb-6">
-        <p className="text-sm text-neutral-500 mb-4">
+      <div className="bg-white rounded-2xl border border-green-200/50 p-8 text-center mb-6">
+        <p className="text-sm text-green-600/60 mb-4">
           Module {String(assessment.moduleNumber).padStart(2, "0")}: {assessment.title}
         </p>
 
@@ -92,8 +92,8 @@ export default async function ResultsPage({
             />
           </svg>
           <div className="absolute inset-0 flex flex-col items-center justify-center">
-            <span className="text-3xl font-bold text-neutral-900">{score}</span>
-            <span className="text-xs text-neutral-400">out of 16</span>
+            <span className="text-3xl font-bold text-green-900">{score}</span>
+            <span className="text-xs text-green-500/60">out of 16</span>
           </div>
         </div>
 
@@ -104,7 +104,7 @@ export default async function ResultsPage({
           </span>
         </div>
 
-        <p className="text-sm text-neutral-600 mt-4 max-w-md mx-auto leading-relaxed">
+        <p className="text-sm text-green-700 mt-4 max-w-md mx-auto leading-relaxed">
           {interp.message}
         </p>
       </div>
@@ -113,27 +113,27 @@ export default async function ResultsPage({
       {reportUnlocked ? (
         <Link
           href={`/assessments/${slug}/report`}
-          className="block bg-white rounded-2xl border border-neutral-200 p-6 hover:border-neutral-300 hover:shadow-md transition-all"
+          className="block bg-white rounded-2xl border border-green-200/50 p-6 hover:border-green-200 hover:shadow-md transition-all"
         >
           <div className="flex items-center justify-between">
             <div>
-              <h3 className="font-semibold text-neutral-900">View Full Career Report</h3>
-              <p className="text-sm text-neutral-500 mt-1">
+              <h3 className="font-semibold text-green-900">View Full Career Report</h3>
+              <p className="text-sm text-green-600/60 mt-1">
                 Career paths, top colleges, 30-day test, roadmap & trend intelligence
               </p>
             </div>
-            <ArrowRight className="w-5 h-5 text-neutral-400 shrink-0" />
+            <ArrowRight className="w-5 h-5 text-green-500/60 shrink-0" />
           </div>
         </Link>
       ) : (
-        <div className="bg-white rounded-2xl border border-neutral-200 p-6">
+        <div className="bg-white rounded-2xl border border-green-200/50 p-6">
           <div className="flex items-start gap-4">
-            <div className="w-10 h-10 bg-neutral-100 rounded-lg flex items-center justify-center shrink-0">
-              <Lock className="w-5 h-5 text-neutral-500" />
+            <div className="w-10 h-10 bg-green-100/50 rounded-lg flex items-center justify-center shrink-0">
+              <Lock className="w-5 h-5 text-green-600/60" />
             </div>
             <div className="flex-1">
-              <h3 className="font-semibold text-neutral-900">Unlock Full Career Report</h3>
-              <p className="text-sm text-neutral-500 mt-1 mb-4">
+              <h3 className="font-semibold text-green-900">Unlock Full Career Report</h3>
+              <p className="text-sm text-green-600/60 mt-1 mb-4">
                 Get detailed career paths with salaries, top AP/TS colleges, your personalised 30-day interest test,
                 critical mistakes to avoid, and 2030 trend intelligence.
               </p>
@@ -146,7 +146,7 @@ export default async function ResultsPage({
                 </Link>
                 <Link
                   href="/subscribe"
-                  className="inline-flex items-center gap-2 text-sm font-medium text-neutral-600 hover:text-neutral-900 transition"
+                  className="inline-flex items-center gap-2 text-sm font-medium text-green-700 hover:text-green-900 transition"
                 >
                   or get Premium for ₹999
                 </Link>
@@ -157,13 +157,13 @@ export default async function ResultsPage({
       )}
 
       {/* Book Counselling */}
-      <div className="mt-6 bg-neutral-50 rounded-2xl border border-neutral-200 p-6 text-center">
-        <p className="text-sm text-neutral-600 mb-3">
+      <div className="mt-6 bg-green-50/50 rounded-2xl border border-green-200/50 p-6 text-center">
+        <p className="text-sm text-green-700 mb-3">
           Want personalised guidance? Talk to an expert.
         </p>
         <Link
           href="/book-counselling"
-          className="inline-flex items-center gap-2 border border-neutral-300 text-neutral-700 px-4 py-2 rounded-lg text-sm font-medium hover:bg-white transition"
+          className="inline-flex items-center gap-2 border border-green-200 text-green-700 px-4 py-2 rounded-lg text-sm font-medium hover:bg-white transition"
         >
           Book Counselling Session
         </Link>

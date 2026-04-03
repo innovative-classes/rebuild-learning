@@ -59,37 +59,41 @@ function LoginForm() {
   }
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-neutral-50 px-4">
-      <div className="w-full max-w-md">
+    <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-br from-green-950 via-green-900 to-green-950 px-4 relative overflow-hidden">
+      {/* Background accents */}
+      <div className="absolute top-0 left-0 w-96 h-96 bg-yellow-500/5 rounded-full blur-3xl -translate-x-1/2 -translate-y-1/2" />
+      <div className="absolute bottom-0 right-0 w-80 h-80 bg-red-500/5 rounded-full blur-3xl translate-x-1/3 translate-y-1/3" />
+
+      <div className="w-full max-w-md relative z-10">
         <div className="text-center mb-8">
           <Link href="/" className="inline-block">
-            <h1 className="text-2xl font-bold tracking-tight text-neutral-900">
+            <h1 className="text-2xl font-bold tracking-tight text-white">
               Rebuild Learning
             </h1>
-            <p className="text-sm text-neutral-500 mt-1">by N.B.V. Subba Rao</p>
+            <p className="text-sm text-green-400/60 mt-1">by N.B.V. Subba Rao</p>
           </Link>
         </div>
 
-        <div className="bg-white rounded-2xl shadow-sm border border-neutral-200 p-8">
-          <h2 className="text-xl font-semibold text-neutral-900 mb-6">
+        <div className="bg-green-800/30 backdrop-blur-xl rounded-2xl shadow-2xl border border-green-700/30 p-8">
+          <h2 className="text-xl font-semibold text-white mb-6">
             Welcome back
           </h2>
 
           {registered && !error && (
-            <div className="mb-4 p-3 rounded-lg bg-green-50 border border-green-200 text-green-700 text-sm">
+            <div className="mb-4 p-3 rounded-lg bg-green-500/10 border border-green-500/20 text-green-300 text-sm">
               Account created! Please check your email and verify before signing in.
             </div>
           )}
 
           {error && (
-            <div className="mb-4 p-3 rounded-lg bg-red-50 border border-red-200 text-red-700 text-sm">
+            <div className="mb-4 p-3 rounded-lg bg-red-500/10 border border-red-500/20 text-red-300 text-sm">
               {error}
             </div>
           )}
 
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
-              <label className="block text-sm font-medium text-neutral-700 mb-1.5">
+              <label className="block text-sm font-medium text-green-200/80 mb-1.5">
                 Email
               </label>
               <input
@@ -97,19 +101,19 @@ function LoginForm() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
-                className="w-full px-3.5 py-2.5 rounded-lg border border-neutral-300 text-sm focus:outline-none focus:ring-2 focus:ring-neutral-900 focus:border-transparent transition"
+                className="w-full px-3.5 py-2.5 rounded-lg border border-green-600/30 bg-green-900/50 text-white text-sm focus:outline-none focus:ring-2 focus:ring-yellow-500/50 focus:border-transparent transition placeholder:text-green-500/40"
                 placeholder="you@example.com"
               />
             </div>
 
             <div>
               <div className="flex items-center justify-between mb-1.5">
-                <label className="block text-sm font-medium text-neutral-700">
+                <label className="block text-sm font-medium text-green-200/80">
                   Password
                 </label>
                 <Link
                   href="/forgot-password"
-                  className="text-xs text-neutral-500 hover:text-neutral-900 transition"
+                  className="text-xs text-yellow-400/70 hover:text-yellow-400 transition"
                 >
                   Forgot password?
                 </Link>
@@ -119,7 +123,7 @@ function LoginForm() {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 required
-                className="w-full px-3.5 py-2.5 rounded-lg border border-neutral-300 text-sm focus:outline-none focus:ring-2 focus:ring-neutral-900 focus:border-transparent transition"
+                className="w-full px-3.5 py-2.5 rounded-lg border border-green-600/30 bg-green-900/50 text-white text-sm focus:outline-none focus:ring-2 focus:ring-yellow-500/50 focus:border-transparent transition placeholder:text-green-500/40"
                 placeholder="••••••••"
               />
             </div>
@@ -127,18 +131,18 @@ function LoginForm() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full py-2.5 px-4 bg-red-600 text-white text-sm font-medium rounded-lg hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-600 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition"
+              className="w-full py-2.5 px-4 bg-gradient-to-r from-red-500 to-red-600 text-white text-sm font-medium rounded-lg hover:from-red-600 hover:to-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 focus:ring-offset-green-900 disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-lg shadow-red-600/20"
             >
               {loading ? "Signing in..." : "Sign in"}
             </button>
           </form>
         </div>
 
-        <p className="text-center text-sm text-neutral-600 mt-6">
+        <p className="text-center text-sm text-green-300/60 mt-6">
           Don&apos;t have an account?{" "}
           <Link
             href="/signup"
-            className="font-medium text-neutral-900 hover:underline"
+            className="font-medium text-yellow-400 hover:text-yellow-300 transition"
           >
             Create one
           </Link>

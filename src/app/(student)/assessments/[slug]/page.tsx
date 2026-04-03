@@ -48,15 +48,15 @@ export default async function AssessmentDetailPage({
   return (
     <div className="max-w-3xl">
       <div className="mb-2">
-        <Link href="/assessments" className="text-sm text-neutral-500 hover:text-neutral-900 transition">
+        <Link href="/assessments" className="text-sm text-green-600/60 hover:text-green-900 transition">
           ← Back to Assessments
         </Link>
       </div>
 
       {/* Header */}
-      <div className="bg-white rounded-2xl border border-neutral-200 p-6 sm:p-8 mb-6">
+      <div className="bg-white rounded-2xl border border-green-200/50 p-6 sm:p-8 mb-6">
         <div className="flex items-center gap-2 mb-4">
-          <span className="text-xs font-mono text-neutral-400">
+          <span className="text-xs font-mono text-green-500/60">
             Module {String(assessment.moduleNumber).padStart(2, "0")}
           </span>
           <span
@@ -64,39 +64,39 @@ export default async function AssessmentDetailPage({
             style={{ backgroundColor: assessment.accentColor }}
           />
         </div>
-        <h1 className="text-2xl sm:text-3xl font-bold text-neutral-900 mb-3">
+        <h1 className="text-2xl sm:text-3xl font-bold text-green-900 mb-3">
           {assessment.title}
         </h1>
-        <p className="text-neutral-600 leading-relaxed">{assessment.overview}</p>
+        <p className="text-green-700 leading-relaxed">{assessment.overview}</p>
 
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mt-6 pt-6 border-t border-neutral-100">
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mt-6 pt-6 border-t border-green-100/50">
           <div>
-            <p className="text-xs text-neutral-400 mb-1">Stream</p>
-            <p className="text-sm font-medium text-neutral-900">{assessment.stream}</p>
+            <p className="text-xs text-green-500/60 mb-1">Stream</p>
+            <p className="text-sm font-medium text-green-900">{assessment.stream}</p>
           </div>
           <div>
-            <p className="text-xs text-neutral-400 mb-1">Key Exams</p>
-            <p className="text-sm font-medium text-neutral-900">{assessment.keyExams}</p>
+            <p className="text-xs text-green-500/60 mb-1">Key Exams</p>
+            <p className="text-sm font-medium text-green-900">{assessment.keyExams}</p>
           </div>
           <div>
-            <p className="text-xs text-neutral-400 mb-1">Degree</p>
-            <p className="text-sm font-medium text-neutral-900">{assessment.degree}</p>
+            <p className="text-xs text-green-500/60 mb-1">Degree</p>
+            <p className="text-sm font-medium text-green-900">{assessment.degree}</p>
           </div>
           <div>
-            <p className="text-xs text-neutral-400 mb-1">Salary Range</p>
-            <p className="text-sm font-medium text-neutral-900">{assessment.salaryRange}</p>
+            <p className="text-xs text-green-500/60 mb-1">Salary Range</p>
+            <p className="text-sm font-medium text-green-900">{assessment.salaryRange}</p>
           </div>
         </div>
 
         <div className="flex items-center gap-1 mt-4">
-          <span className="text-xs text-neutral-400 mr-1">2030 Demand:</span>
+          <span className="text-xs text-green-500/60 mr-1">2030 Demand:</span>
           {Array.from({ length: 5 }).map((_, i) => (
             <Star
               key={i}
               className={`w-3.5 h-3.5 ${
                 i < assessment.demandRating
                   ? "fill-amber-400 text-amber-400"
-                  : "text-neutral-200"
+                  : "text-green-200"
               }`}
             />
           ))}
@@ -104,23 +104,23 @@ export default async function AssessmentDetailPage({
       </div>
 
       {/* Action Section */}
-      <div className="bg-white rounded-2xl border border-neutral-200 p-6 sm:p-8">
+      <div className="bg-white rounded-2xl border border-green-200/50 p-6 sm:p-8">
         {!hasQuestions ? (
           <div className="text-center py-8">
-            <div className="w-12 h-12 bg-neutral-100 rounded-xl flex items-center justify-center mx-auto mb-4">
-              <Clock className="w-6 h-6 text-neutral-400" />
+            <div className="w-12 h-12 bg-green-100/50 rounded-xl flex items-center justify-center mx-auto mb-4">
+              <Clock className="w-6 h-6 text-green-500/60" />
             </div>
-            <h3 className="font-semibold text-neutral-900 mb-2">Coming Soon</h3>
-            <p className="text-sm text-neutral-500 max-w-sm mx-auto">
+            <h3 className="font-semibold text-green-900 mb-2">Coming Soon</h3>
+            <p className="text-sm text-green-600/60 max-w-sm mx-auto">
               The assessment for this module is currently being prepared. Check back soon!
             </p>
           </div>
         ) : isCompleted ? (
           <div className="text-center py-4">
             <CheckCircle2 className="w-10 h-10 text-emerald-500 mx-auto mb-3" />
-            <h3 className="font-semibold text-neutral-900 mb-1">Assessment Completed</h3>
-            <p className="text-sm text-neutral-500 mb-4">
-              Your score: <span className="font-semibold text-neutral-900">{latestAttempt.totalScore}/16</span>{" "}
+            <h3 className="font-semibold text-green-900 mb-1">Assessment Completed</h3>
+            <p className="text-sm text-green-600/60 mb-4">
+              Your score: <span className="font-semibold text-green-900">{latestAttempt.totalScore}/16</span>{" "}
               — <span className="font-medium">{latestAttempt.interpretation} Fit</span>
             </p>
             <div className="flex items-center justify-center gap-3">
@@ -139,11 +139,11 @@ export default async function AssessmentDetailPage({
             <div className="w-12 h-12 bg-red-50 rounded-xl flex items-center justify-center mx-auto mb-4">
               <Lock className="w-6 h-6 text-red-600" />
             </div>
-            <h3 className="font-semibold text-neutral-900 mb-2">Unlock This Assessment</h3>
-            <p className="text-sm text-neutral-500 mb-2 max-w-md mx-auto">
+            <h3 className="font-semibold text-green-900 mb-2">Unlock This Assessment</h3>
+            <p className="text-sm text-green-600/60 mb-2 max-w-md mx-auto">
               Pay once to access the 8-question quiz. Your detailed career report — including career paths, top colleges, 30-day interest test & roadmap — is included free after completing the assessment.
             </p>
-            <p className="text-xs text-neutral-400 mb-6">
+            <p className="text-xs text-green-500/60 mb-6">
               8 scientifically designed questions · Takes about 5 minutes · Career report included
             </p>
             <div className="flex flex-col items-center gap-3">
@@ -156,7 +156,7 @@ export default async function AssessmentDetailPage({
               </Link>
               <Link
                 href="/subscribe"
-                className="text-sm font-medium text-neutral-500 hover:text-neutral-900 transition"
+                className="text-sm font-medium text-green-600/60 hover:text-green-900 transition"
               >
                 or get Premium for ₹999 (all modules)
               </Link>
@@ -164,13 +164,13 @@ export default async function AssessmentDetailPage({
           </div>
         ) : (
           <div className="text-center py-4">
-            <h3 className="font-semibold text-neutral-900 mb-2">
+            <h3 className="font-semibold text-green-900 mb-2">
               {isInProgress ? "Continue Your Assessment" : "Self-Assessment Quiz"}
             </h3>
-            <p className="text-sm text-neutral-500 mb-2 max-w-md mx-auto">
+            <p className="text-sm text-green-600/60 mb-2 max-w-md mx-auto">
               8 scientifically designed questions · Takes about 5 minutes
             </p>
-            <p className="text-xs text-neutral-400 mb-6">
+            <p className="text-xs text-green-500/60 mb-6">
               Answer honestly — your score reveals your genuine interest intensity, not what sounds impressive.
             </p>
             <Link
