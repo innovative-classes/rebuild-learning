@@ -284,17 +284,17 @@ export default function JeeMainPredictorPage() {
                   <tbody className="divide-y divide-green-100/50">
                     {filteredData.map((row, i) => (
                       <tr key={i} className="hover:bg-green-50/50 transition">
-                        <td className="py-2.5 px-4 text-xs text-green-900 font-medium max-w-[200px] truncate">{row.institute}</td>
-                        <td className="py-2.5 px-4 text-xs text-green-800 max-w-[220px] truncate">{row.program}</td>
-                        <td className="py-2.5 px-3">
+                        <td className="py-2.5 px-4 text-xs text-green-900 font-medium max-w-[200px] break-words align-top">{row.institute}</td>
+                        <td className="py-2.5 px-4 text-xs text-green-800 max-w-[220px] break-words align-top">{row.program}</td>
+                        <td className="py-2.5 px-3 align-top">
                           <span className={`text-[10px] font-medium px-2 py-0.5 rounded-full ${seatTypeColors[row.seatType] || "bg-green-50 text-green-700"}`}>
                             {row.seatType}
                           </span>
                         </td>
-                        <td className="py-2.5 px-3 text-xs text-green-700">{quotaLabels[row.quota] || row.quota}</td>
-                        <td className="py-2.5 px-3 text-xs text-green-900 font-mono text-right">{row.openingRank.toLocaleString()}</td>
-                        <td className="py-2.5 px-3 text-xs text-green-900 font-mono text-right font-semibold">{row.closingRank.toLocaleString()}</td>
-                        <td className="py-2.5 px-3 text-xs text-center text-green-700">{row.round}</td>
+                        <td className="py-2.5 px-3 text-xs text-green-700 align-top">{quotaLabels[row.quota] || row.quota}</td>
+                        <td className="py-2.5 px-3 text-xs text-green-900 font-mono text-right align-top">{row.openingRank.toLocaleString()}</td>
+                        <td className="py-2.5 px-3 text-xs text-green-900 font-mono text-right font-semibold align-top">{row.closingRank.toLocaleString()}</td>
+                        <td className="py-2.5 px-3 text-xs text-center text-green-700 align-top">{row.round}</td>
                       </tr>
                     ))}
                     {filteredData.length === 0 && (

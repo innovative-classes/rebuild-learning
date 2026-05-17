@@ -291,18 +291,18 @@ export default function NeetPredictorPage() {
                   <tbody className="divide-y divide-green-100/50">
                     {filteredData.map((row, i) => (
                       <tr key={i} className="hover:bg-green-50/50 transition">
-                        <td className="py-2.5 px-4 text-xs text-green-900 font-medium max-w-[200px]">{row.institute}</td>
-                        {row.state && <td className="py-2.5 px-3 text-xs text-green-700"><span className="flex items-center gap-1"><MapPin className="w-3 h-3" />{row.state}</span></td>}
-                        <td className="py-2.5 px-3 text-xs text-green-800">{row.course}</td>
-                        <td className="py-2.5 px-3">
+                        <td className="py-2.5 px-4 text-xs text-green-900 font-medium max-w-[200px] break-words align-top">{row.institute}</td>
+                        {row.state && <td className="py-2.5 px-3 text-xs text-green-700 align-top"><span className="flex items-center gap-1"><MapPin className="w-3 h-3" />{row.state}</span></td>}
+                        <td className="py-2.5 px-3 text-xs text-green-800 break-words align-top">{row.course}</td>
+                        <td className="py-2.5 px-3 align-top">
                           <span className={`text-[10px] font-medium px-2 py-0.5 rounded-full ${categoryColors[row.category] || "bg-green-50 text-green-700"}`}>
                             {row.category}
                           </span>
                         </td>
-                        <td className="py-2.5 px-3 text-xs text-green-700 max-w-[120px] truncate">{row.quota}</td>
-                        <td className="py-2.5 px-3 text-xs text-green-900 font-mono text-right">{row.openingRank.toLocaleString()}</td>
-                        <td className="py-2.5 px-3 text-xs text-green-900 font-mono text-right font-semibold">{row.closingRank.toLocaleString()}</td>
-                        <td className="py-2.5 px-3 text-xs text-center text-green-700">{row.round}</td>
+                        <td className="py-2.5 px-3 text-xs text-green-700 max-w-[120px] break-words align-top">{row.quota}</td>
+                        <td className="py-2.5 px-3 text-xs text-green-900 font-mono text-right align-top">{row.openingRank.toLocaleString()}</td>
+                        <td className="py-2.5 px-3 text-xs text-green-900 font-mono text-right font-semibold align-top">{row.closingRank.toLocaleString()}</td>
+                        <td className="py-2.5 px-3 text-xs text-center text-green-700 align-top">{row.round}</td>
                       </tr>
                     ))}
                     {filteredData.length === 0 && (
