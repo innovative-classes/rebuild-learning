@@ -1,17 +1,10 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import Script from "next/script";
 import { Loader2, ShieldCheck, Tag, Check, Crown } from "lucide-react";
-
-declare global {
-  interface Window {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    Razorpay: any;
-  }
-}
+import { loadRazorpay } from "@/lib/load-razorpay";
 
 const benefits = [
   "All 12 assessments & career reports unlocked",
@@ -35,6 +28,12 @@ export default function SubscribePage() {
 
   const basePrice = 999;
   const finalAmount = Math.max(0, basePrice - discount);
+
+  // Preload the Razorpay checkout script on mount so it is ready by the
+  // time the user clicks "Pay".
+  useEffect(() => {
+    loadRazorpay();
+  }, []);
 
   async function applyCoupon() {
     if (!couponCode.trim()) return;
@@ -91,6 +90,16 @@ export default function SubscribePage() {
     }
 
     if (data.mode === "razorpay" && data.razorpayOrderId) {
+      // Ensure the Razorpay checkout script is actually loaded before use.
+      const ready = await loadRazorpay();
+      if (!ready || !window.Razorpay) {
+        setError(
+          "Payment gateway could not load. Check your internet connection and try again."
+        );
+        setProcessing(false);
+        return;
+      }
+
       const options = {
         key: data.razorpayKeyId,
         amount: data.finalAmount * 100,
@@ -124,8 +133,21 @@ export default function SubscribePage() {
         },
       };
 
-      const rzp = new window.Razorpay(options);
-      rzp.open();
+      try {
+        const rzp = new window.Razorpay(options);
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        rzp.on("payment.failed", function (resp: any) {
+          setError(
+            resp?.error?.description ||
+              "Payment failed. No money was deducted — please try again."
+          );
+          setProcessing(false);
+        });
+        rzp.open();
+      } catch {
+        setError("Could not open the payment window. Please try again.");
+        setProcessing(false);
+      }
     } else {
       setError("Payment gateway unavailable. Please try again later.");
       setProcessing(false);
@@ -134,7 +156,6 @@ export default function SubscribePage() {
 
   return (
     <div className="max-w-md mx-auto">
-      <Script src="https://checkout.razorpay.com/v1/checkout.js" strategy="lazyOnload" />
       <div className="mb-4">
         <Link href="/dashboard" className="text-sm text-green-600/60 hover:text-green-800 transition">
           ← Back to Dashboard

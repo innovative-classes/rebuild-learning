@@ -1,16 +1,10 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import Script from "next/script";
 import { Calendar, Clock, Loader2, CheckCircle, CreditCard, IndianRupee } from "lucide-react";
-
-declare global {
-  interface Window {
-    Razorpay: any;
-  }
-}
+import { loadRazorpay } from "@/lib/load-razorpay";
 
 const COUNSELLING_FEE = 2500;
 
@@ -31,6 +25,11 @@ export default function BookCounsellingPage() {
   const [processing, setProcessing] = useState(false);
   const [error, setError] = useState("");
   const [bookingId, setBookingId] = useState<string | null>(null);
+
+  // Preload the Razorpay checkout script so it is ready before payment.
+  useEffect(() => {
+    loadRazorpay();
+  }, []);
 
   function updateField(key: string, value: string) {
     setForm((prev) => ({ ...prev, [key]: value }));
@@ -87,6 +86,16 @@ export default function BookCounsellingPage() {
     }
 
     if (data.mode === "razorpay" && data.razorpayOrderId) {
+      // Ensure the Razorpay checkout script is actually loaded before use.
+      const ready = await loadRazorpay();
+      if (!ready || !window.Razorpay) {
+        setError(
+          "Payment gateway could not load. Check your internet connection and try again."
+        );
+        setProcessing(false);
+        return;
+      }
+
       const options = {
         key: data.razorpayKeyId,
         amount: data.finalAmount * 100,
@@ -99,6 +108,7 @@ export default function BookCounsellingPage() {
           email: form.email,
           contact: form.phone,
         },
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         handler: async function (response: any) {
           const confirmRes = await fetch("/api/payments/confirm", {
             method: "POST",
@@ -124,8 +134,21 @@ export default function BookCounsellingPage() {
         },
       };
 
-      const rzp = new window.Razorpay(options);
-      rzp.open();
+      try {
+        const rzp = new window.Razorpay(options);
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        rzp.on("payment.failed", function (resp: any) {
+          setError(
+            resp?.error?.description ||
+              "Payment failed. No money was deducted — please try again."
+          );
+          setProcessing(false);
+        });
+        rzp.open();
+      } catch {
+        setError("Could not open the payment window. Please try again.");
+        setProcessing(false);
+      }
     } else {
       setError("Payment gateway unavailable. Please try again later.");
       setProcessing(false);
@@ -160,8 +183,6 @@ export default function BookCounsellingPage() {
   if (step === "payment") {
     return (
       <div className="max-w-md mx-auto">
-        <Script src="https://checkout.razorpay.com/v1/checkout.js" strategy="lazyOnload" />
-
         <h1 className="text-xl font-bold text-green-900 mb-1">Complete Payment</h1>
         <p className="text-sm text-green-600/60 mb-6">
           Pay ₹{COUNSELLING_FEE.toLocaleString("en-IN")} to confirm your counselling session.
